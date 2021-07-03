@@ -1,53 +1,43 @@
 package com.aakash.mycambriancourses;
 
+import android.content.Context;
+import android.media.Image;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-import java.util.ArrayList;
-
-public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<Person, RecyclerViewAdapter.personsViewholder> {
+public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, RecyclerViewAdapter.personsViewholder> {
 
     public RecyclerViewAdapter(
-            @NonNull FirebaseRecyclerOptions<Person> options)
+            @NonNull FirebaseRecyclerOptions<AllCourses> options)
     {
         super(options);
     }
 
-    // Function to bind the view in Card view(here
-    // "person.xml") iwth data in
-    // model class(here "person.class")
     @Override
     protected void
     onBindViewHolder(@NonNull personsViewholder holder,
-                     int position, @NonNull Person model)
+                     int position, @NonNull AllCourses model)
     {
 
-        // Add firstname from model class (here
-        // "person.class")to appropriate view in Card
-        // view (here "person.xml")
+
         holder.firstname.setText(model.getFirstname());
+        Glide.with(holder.itemView.getContext()).load(model.getImage()).into(holder.imageurl);
 
-        // Add lastname from model class (here
-        // "person.class")to appropriate view in Card
-        // view (here "person.xml")
-        //holder.lastname.setText(model.getLastname());
-
-        // Add age from model class (here
-        // "person.class")to appropriate view in Card
-        // view (here "person.xml")
-        //holder.age.setText(model.getAge());
     }
 
-    // Function to tell the class about the Card view (here
-    // "person.xml")in
-    // which the data will be shown
+
     @NonNull
     @Override
     public personsViewholder
@@ -65,12 +55,14 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<Person, Recycle
     class personsViewholder
             extends RecyclerView.ViewHolder {
         TextView firstname, lastname, age;
+        ImageView imageurl;
         public personsViewholder(@NonNull View itemView)
         {
             super(itemView);
 
             firstname
                     = itemView.findViewById(R.id.textViewName);
+            imageurl = itemView.findViewById(R.id.imageViewurl);
 //            lastname = itemView.findViewById(R.id.lastname);
 //            age = itemView.findViewById(R.id.age);
         }

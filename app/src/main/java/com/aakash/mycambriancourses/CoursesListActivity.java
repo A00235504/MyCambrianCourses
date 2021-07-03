@@ -5,16 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-
-import java.util.ArrayList;
 
 public class CoursesListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -39,9 +33,9 @@ public class CoursesListActivity extends AppCompatActivity {
 
         // It is a class provide by the FirebaseUI to make a
         // query in the database to fetch appropriate data
-        FirebaseRecyclerOptions<Person> options
-                = new FirebaseRecyclerOptions.Builder<Person>()
-                .setQuery(mbase, Person.class)
+        FirebaseRecyclerOptions<AllCourses> options
+                = new FirebaseRecyclerOptions.Builder<AllCourses>()
+                .setQuery(mbase, AllCourses.class)
                 .build();
         // Connecting object of required Adapter class to
         // the Adapter class itself
