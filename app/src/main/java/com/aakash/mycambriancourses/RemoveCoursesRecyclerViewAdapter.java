@@ -1,19 +1,16 @@
 package com.aakash.mycambriancourses;
 
-import android.content.Context;
-import android.media.Image;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,11 +23,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, RecyclerViewAdapter.personsViewholder> {
+public class RemoveCoursesRecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, RemoveCoursesRecyclerViewAdapter.personsViewholder> {
     List<String> myListData;
-    public RecyclerViewAdapter(
+    public RemoveCoursesRecyclerViewAdapter(
             @NonNull FirebaseRecyclerOptions<AllCourses> options)
     {
         super(options);
@@ -38,7 +34,7 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
 
     @Override
     protected void
-    onBindViewHolder(@NonNull personsViewholder holder,
+    onBindViewHolder(@NonNull RemoveCoursesRecyclerViewAdapter.personsViewholder holder,
                      int position, @NonNull AllCourses model)
     {
 
@@ -61,32 +57,26 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
 
                         if (dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue() != null) {
 
-                            if (dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString().contains(model.getFirstname())) {
-                                Log.e("snapmain", "data exist");
-                            } else {
-                                String olddata = dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString();
-                                //Log.e("snapmain", dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString());
-//                                ref.child("Users").child(user.getUid()).child("MyCourses").
-//                                        setValue(String.valueOf(model.getFirstname() + " ,\n" + olddata));
-                                myListData.clear();
+
+
                                 for(int i=0;i<dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getChildrenCount();i++){
                                     Log.e("getdata",dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").child(String.valueOf(i)).getValue(String.class));
-                                    myListData.add(dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").child(String.valueOf(i)).getValue(String.class));
-                                }
+                                    dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").child(String.valueOf(i)).getRef().removeValue();
 
 
-                                myListData.add(model.getFirstname().toString());
 
-                                ref.child("Users").child(user.getUid()).child("MyCourses").setValue(myListData);
+//                                myListData.add(model.getFirstname().toString());
+//
+//                                ref.child("Users").child(user.getUid()).child("MyCourses").setValue(myListData);
                             }
                         }else{
-                            myListData.add(model.getFirstname().toString());
-
-                            ref.child("Users").child(user.getUid()).child("MyCourses").setValue(myListData);
-//                                ref.child("Users").child(user.getUid()).child("MyCourses").
-//                                        setValue(String.valueOf(model.getFirstname()));
-                            }
+//                            myListData.add(model.getFirstname().toString());
+//
+//                            ref.child("Users").child(user.getUid()).child("MyCourses").setValue(myListData);
+////                                ref.child("Users").child(user.getUid()).child("MyCourses").
+////                                        setValue(String.valueOf(model.getFirstname()));
                         }
+                    }
 
 
 
@@ -109,14 +99,14 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
 
     @NonNull
     @Override
-    public personsViewholder
+    public RemoveCoursesRecyclerViewAdapter.personsViewholder
     onCreateViewHolder(@NonNull ViewGroup parent,
                        int viewType)
     {
         View view
                 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item, parent, false);
-        return new RecyclerViewAdapter.personsViewholder(view);
+        return new RemoveCoursesRecyclerViewAdapter.personsViewholder(view);
     }
 
     // Sub Class to create references of the views in Crad
@@ -137,3 +127,4 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
         }
     }
 }
+
