@@ -12,11 +12,11 @@ public class AllCourses
     public AllCourses() {}
 
     // Getter and setter method
-    public String getFirstname()
+    public String getcoursename()
     {
         return coursename;
     }
-    public void setFirstname(String coursename)
+    public void setcoursename(String coursename)
     {
         this.coursename = coursename;
     }

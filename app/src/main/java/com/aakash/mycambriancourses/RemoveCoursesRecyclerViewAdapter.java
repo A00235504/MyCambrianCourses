@@ -39,7 +39,7 @@ public class RemoveCoursesRecyclerViewAdapter extends FirebaseRecyclerAdapter<Al
     {
 
         myListData = new ArrayList<>();
-        holder.firstname.setText(model.getFirstname());
+        holder.firstname.setText(model.getcoursename());
         Glide.with(holder.itemView.getContext()).load(model.getImage()).into(holder.imageurl);
 
         holder.imageurl.setOnClickListener(new View.OnClickListener() {

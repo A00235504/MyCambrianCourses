@@ -1,42 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/name"
+        <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Welcome!"
-            android:textSize="40dp" />
+            layout="@layout/toolbar_custom"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@color/purple_500"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
+<ImageView
+    android:layout_height="100dp"
+    android:layout_width="100dp"
+    android:src="@drawable/back"
+    />
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: "
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/myCoursesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email: "
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/emailTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="MyCourses"/>
+            android:text="User Email"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
 
-        <Button
-            android:id="@+id/removeCoursesButton"
+
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Student ID: "
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/studentIDTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="15dp"
-            android:text="Remove Courses" />
+            android:text="Student ID"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mobile Number: "
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/mobileTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mobile Number"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Birth Date: "
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/birthdateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Birth Date"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+
+    </TableRow>
+
+
+</TableLayout>
+
+
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="MyCourses"/>
+            <TextView
+                android:id="@+id/myCoursesTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text=""/>
+
+            <Button
+                android:id="@+id/removeCoursesButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="15dp"
+                android:text="Remove Courses" />
+
+
+
+            <Button
+                android:id="@+id/themechangeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="15dp"
+                android:text="Theme Change" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <Button

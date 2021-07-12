@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,10 +45,10 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
     {
 
         myListData = new ArrayList<>();
-        holder.firstname.setText(model.getFirstname());
+        holder.firstname.setText(model.getcoursename());
         Glide.with(holder.itemView.getContext()).load(model.getImage()).into(holder.imageurl);
 
-        holder.imageurl.setOnClickListener(new View.OnClickListener() {
+        holder.addCourseTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -61,8 +63,9 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
 
                         if (dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue() != null) {
 
-                            if (dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString().contains(model.getFirstname())) {
+                            if (dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString().contains(model.getcoursename())) {
                                 Log.e("snapmain", "data exist");
+                                Toast.makeText(v.getContext(), "Course Already added!", Toast.LENGTH_SHORT).show();
                             } else {
                                 String olddata = dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString();
                                 //Log.e("snapmain", dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString());
@@ -75,12 +78,13 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
                                 }
 
 
-                                myListData.add(model.getFirstname().toString());
+                                myListData.add(model.getcoursename().toString());
 
                                 ref.child("Users").child(user.getUid()).child("MyCourses").setValue(myListData);
+                                Toast.makeText(v.getContext(), "Course added Success!", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            myListData.add(model.getFirstname().toString());
+                            myListData.add(model.getcoursename().toString());
 
                             ref.child("Users").child(user.getUid()).child("MyCourses").setValue(myListData);
 //                                ref.child("Users").child(user.getUid()).child("MyCourses").
@@ -123,15 +127,15 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
     // view (here "person.xml")
     class personsViewholder
             extends RecyclerView.ViewHolder {
-        TextView firstname, lastname, age;
+        TextView firstname, addCourseTextView, age;
         ImageView imageurl;
         public personsViewholder(@NonNull View itemView)
         {
             super(itemView);
 
-            firstname
-                    = itemView.findViewById(R.id.textViewName);
+            firstname = itemView.findViewById(R.id.textViewName);
             imageurl = itemView.findViewById(R.id.imageViewurl);
+            addCourseTextView = itemView.findViewById(R.id.addCourseTextView);
 //            lastname = itemView.findViewById(R.id.lastname);
 //            age = itemView.findViewById(R.id.age);
         }

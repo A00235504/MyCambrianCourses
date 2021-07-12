@@ -2,10 +2,14 @@ package com.aakash.mycambriancourses;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,21 +22,32 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
+
 public class ProfileActivity extends AppCompatActivity {
-    Button btnLogOut,removeCoursesButton;
+    Button btnLogOut,removeCoursesButton,themechangeButton;
     FirebaseAuth firebaseAuth;
-    TextView profileName,myCoursesTextView;
+    TextView nameTextView,emailTextView,myCoursesTextView,toolBarTitle;
     private FirebaseAuth.AuthStateListener authStateListener;
-    FirebaseUser fb;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
+        toolBarTitle = findViewById(R.id.toolbarText);
+        toolBarTitle.setText("Profile");
         removeCoursesButton = findViewById(R.id.removeCoursesButton);
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
-        profileName = findViewById(R.id.name);
+        emailTextView = findViewById(R.id.emailTextView);
         myCoursesTextView = findViewById(R.id.myCoursesTextView);
+
+
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,14 +67,32 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        fb = FirebaseAuth.getInstance().getCurrentUser();
-        profileName.setText(fb.getEmail());
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        emailTextView.setText(user.getEmail());
+        nameTextView = findViewById(R.id.nameTextView);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                if (snapshot.child("Users").child(user.getUid()).child("Profile").getValue() != null) {
+                    nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("Profile").child("name").toString());
+                }
+                else{
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull  DatabaseError error) {
+
+            }
+        });
+
+
+
 
         getFirebaseCourses(user, ref);
+
+
 
     }
 
@@ -90,8 +123,8 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        profileName.setText(user.getEmail());
-
+        emailTextView.setText(user.getEmail());
+        nameTextView.setText(ref.child("Users").child(user.getUid()).child("Profile").child("name").toString());
         getFirebaseCourses(user, ref);
     }
 }
