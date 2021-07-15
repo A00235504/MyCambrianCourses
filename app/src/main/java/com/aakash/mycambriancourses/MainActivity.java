@@ -7,6 +7,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,7 +50,7 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         setContentView(R.layout.activity_main);
 
         menuImageViewButton = findViewById(R.id.menuButton);
-
+        profileImage = findViewById(R.id.profileImage);
         drawerLayout = findViewById(R.id.my_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
 
@@ -58,8 +60,6 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         actionBarDrawerToggle.syncState();
 
 
-
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header);
@@ -67,6 +67,7 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         profileImageNavigationdrawerImageView = headerView.findViewById(R.id.img_profilenavigationheader);
         profilenameTextView = headerView.findViewById(R.id.profilenameTextView);
         menuImageViewButton.setVisibility(View.VISIBLE);
+        profileImage.setVisibility(View.VISIBLE);
         menuImageViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,4 +168,27 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        //this.finish();
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Exit Alert");
+        alertDialog.setIcon(R.drawable.profile_icon);
+
+        alertDialog.setMessage("Do you really want to exit the App?");
+        alertDialog.setButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                return;
+            } });
+        alertDialog.setButton2("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                return;
+            }});
+        alertDialog.show();
+
+    }
+
 }

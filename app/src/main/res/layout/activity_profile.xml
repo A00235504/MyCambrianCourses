@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -152,17 +157,7 @@
             </LinearLayout>
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:text="MyCourses"/>
-            <TextView
-                android:id="@+id/myCoursesTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:text=""/>
+
 
             <Button
                 android:id="@+id/removeCoursesButton"
@@ -184,7 +179,7 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    </ScrollView>
     <Button
         android:id="@+id/btnLogOut"
         android:layout_width="match_parent"
@@ -192,4 +187,5 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp"
         android:text="Logout" />
+
 </RelativeLayout>

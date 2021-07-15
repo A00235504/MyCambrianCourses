@@ -27,7 +27,7 @@ import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 public class ProfileActivity extends AppCompatActivity {
     Button btnLogOut,removeCoursesButton,themechangeButton;
     FirebaseAuth firebaseAuth;
-    TextView nameTextView,emailTextView,myCoursesTextView,toolBarTitle;
+    TextView nameTextView,emailTextView,toolBarTitle,studentIDTextView,mobileTextView,birthdateTextView;
     private FirebaseAuth.AuthStateListener authStateListener;
 
 
@@ -45,8 +45,9 @@ public class ProfileActivity extends AppCompatActivity {
         removeCoursesButton = findViewById(R.id.removeCoursesButton);
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
         emailTextView = findViewById(R.id.emailTextView);
-        myCoursesTextView = findViewById(R.id.myCoursesTextView);
-
+        studentIDTextView = findViewById(R.id.studentIDTextView);
+        mobileTextView = findViewById(R.id.mobileTextView);
+        birthdateTextView = findViewById(R.id.birthdateTextView);
 
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +68,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
         emailTextView.setText(user.getEmail());
         nameTextView = findViewById(R.id.nameTextView);
         ref.addValueEventListener(new ValueEventListener() {
@@ -75,6 +75,9 @@ public class ProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
                 if (snapshot.child("Users").child(user.getUid()).child("name").getValue() != null) {
                     nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
+                    studentIDTextView.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
+                    mobileTextView.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
+                    birthdateTextView.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
                 }
                 else{
 
@@ -88,34 +91,8 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-
-
-        getFirebaseCourses(user, ref);
-
-
-
     }
 
-    private void getFirebaseCourses(FirebaseUser user, DatabaseReference ref) {
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue() != null) {
-                        String olddata = dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString();
-                        Log.e("snapmain", dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString());
-
-                    myCoursesTextView.setText(olddata);
-
-                }else{
-                    myCoursesTextView.setText("No courses Here!");
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-            });
-    }
 
     @Override
     protected void onResume() {
@@ -125,6 +102,9 @@ public class ProfileActivity extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         emailTextView.setText(user.getEmail());
         nameTextView.setText(ref.child("Users").child(user.getUid()).child("Profile").child("name").toString());
-        getFirebaseCourses(user, ref);
+        studentIDTextView.setText(ref.child("Users").child(user.getUid()).child("studentid").toString());
+        mobileTextView.setText(ref.child("Users").child(user.getUid()).child("mobilenumber").toString());
+        birthdateTextView.setText(ref.child("Users").child(user.getUid()).child("birthdate").toString());
+
     }
 }
