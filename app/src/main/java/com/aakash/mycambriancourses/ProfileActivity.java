@@ -73,8 +73,8 @@ public class ProfileActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                if (snapshot.child("Users").child(user.getUid()).child("Profile").getValue() != null) {
-                    nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("Profile").child("name").toString());
+                if (snapshot.child("Users").child(user.getUid()).child("name").getValue() != null) {
+                    nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
                 }
                 else{
 

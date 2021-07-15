@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
-                                ref.child("Users").child(user.getUid()).child("Name").setValue(String.valueOf(userName.getText()));
+                                ref.child("Users").child(user.getUid()).child("name").setValue(String.valueOf(userName.getText()));
                                 Toast.makeText(RegisterActivity.this.getApplicationContext(),
                                         "SignUp sucess: ",
                                         Toast.LENGTH_SHORT).show();

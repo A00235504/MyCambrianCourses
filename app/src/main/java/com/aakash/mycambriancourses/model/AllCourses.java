@@ -1,4 +1,4 @@
-package com.aakash.mycambriancourses;
+package com.aakash.mycambriancourses.model;
 
 public class AllCourses
 {
