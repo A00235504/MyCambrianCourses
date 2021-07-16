@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
     public EditText loginEmailId, logInpasswd;
     Button btnLogIn;
-    TextView signup;
+
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     @Override
@@ -33,27 +33,29 @@ public class LoginActivity extends AppCompatActivity {
         loginEmailId = findViewById(R.id.loginEmail);
         logInpasswd = findViewById(R.id.loginpaswd);
         btnLogIn = findViewById(R.id.btnLogIn);
-        signup = findViewById(R.id.TVSignIn);
+
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    Toast.makeText(LoginActivity.this, user.getEmail().toString(), Toast.LENGTH_SHORT).show();
+                    if(user.getEmail().contentEquals("test@gmail.com")){
+                        GlobalData.showAdminOptions = true;
+                        Toast.makeText(LoginActivity.this, "Admin Login sucess", Toast.LENGTH_SHORT).show();
+                        Intent I = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(I);
+                    }else{
                     Toast.makeText(LoginActivity.this, "User logged in ", Toast.LENGTH_SHORT).show();
                     Intent I = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(I);
+                    }
                 } else {
                     Toast.makeText(LoginActivity.this, "Login to continue", Toast.LENGTH_SHORT).show();
                 }
             }
         };
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent I = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(I);
-            }
-        });
+
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
-        finish();
     }
+
 
 }

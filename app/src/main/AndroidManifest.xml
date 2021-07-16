@@ -13,23 +13,17 @@
         android:theme="@style/LightTheme">
         <activity android:name=".CourseViewActivity"/>
         <activity
-            android:name=".RemoveCoursesActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:name=".RemoveCoursesActivity" />
         <activity
-            android:name=".ProfileActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:name=".ProfileActivity" />
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:name=".MainActivity" />
         <activity
-            android:name=".RegisterActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:name=".RegisterActivity" />
         <activity
-            android:name=".CoursesListActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:name=".CoursesListActivity" />
         <activity
-            android:name=".LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

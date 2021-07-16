@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.aakash.mycambriancourses.adapters.PopularCoursesRecyclerViewAdapter;
@@ -63,6 +64,15 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header);
+
+        if(GlobalData.showAdminOptions == true){
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.main_menu_admin);
+        }
+        else{
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.main_menu);
+        }
         //TextView user = (TextView) headerView.findViewById(R.id.loginTextId);
         profileImageNavigationdrawerImageView = headerView.findViewById(R.id.img_profilenavigationheader);
         profilenameTextView = headerView.findViewById(R.id.profilenameTextView);
@@ -144,9 +154,13 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         // Connecting Adapter class with the Recycler view*/
         recyclerView.setAdapter(adapter);
 
+
+
+
     }
-    // Function to tell the app to start getting
-    // data from database on starting of the activity
+
+
+
     @Override protected void onStart()
     {
         super.onStart();
@@ -179,7 +193,8 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         alertDialog.setMessage("Do you really want to exit the App?");
         alertDialog.setButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                finishAffinity();
+                System.exit(0);
                 return;
             } });
         alertDialog.setButton2("No", new DialogInterface.OnClickListener() {

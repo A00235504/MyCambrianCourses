@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.app.UiModeManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -12,7 +13,10 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     TextView nameTextView,emailTextView,toolBarTitle,studentIDTextView,mobileTextView,birthdateTextView;
     private FirebaseAuth.AuthStateListener authStateListener;
-
+private UiModeManager ui;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +45,52 @@ public class ProfileActivity extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
         toolBarTitle = findViewById(R.id.toolbarText);
-        toolBarTitle.setText("Profile");
+        if(GlobalData.showAdminOptions == false) {
+            toolBarTitle.setText("Profile");
+        }
+        else{
+            toolBarTitle.setText("Admin Profile");
+        }
         removeCoursesButton = findViewById(R.id.removeCoursesButton);
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
         emailTextView = findViewById(R.id.emailTextView);
         studentIDTextView = findViewById(R.id.studentIDTextView);
         mobileTextView = findViewById(R.id.mobileTextView);
         birthdateTextView = findViewById(R.id.birthdateTextView);
+        themechangeButton = findViewById(R.id.themechangeButton);
+        ToggleButton tb = findViewById(R.id.togglebutton);
+        ui = (UiModeManager) getSystemService(UI_MODE_SERVICE);
+        tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    getApplicationContext().setTheme(R.style.LightTheme);
+                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    //Toast.makeText(ProfileActivity.this, getApplicationContext().getTheme().toString(), Toast.LENGTH_SHORT).show();
+                    //recreate();
+                    //ui.setNightMode(UiModeManager.MODE_NIGHT_NO);
+                } else {
+                    getApplicationContext().setTheme(R.style.DarkTheme);
+                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    //Toast.makeText(ProfileActivity.this, getApplicationContext().getTheme().toString(), Toast.LENGTH_SHORT).show();
+
+                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    //ui.setNightMode(UiModeManager.MODE_NIGHT_YES);
+                    //recreate();
+                }
+            }
+        });
+        themechangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+                getApplicationContext().setTheme(R.style.DarkTheme);
+                Toast.makeText(ProfileActivity.this, getApplicationContext().getTheme().toString(), Toast.LENGTH_SHORT).show();
+                recreate();
+            }
+        });
 
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,10 +144,25 @@ public class ProfileActivity extends AppCompatActivity {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         emailTextView.setText(user.getEmail());
-        nameTextView.setText(ref.child("Users").child(user.getUid()).child("Profile").child("name").toString());
-        studentIDTextView.setText(ref.child("Users").child(user.getUid()).child("studentid").toString());
-        mobileTextView.setText(ref.child("Users").child(user.getUid()).child("mobilenumber").toString());
-        birthdateTextView.setText(ref.child("Users").child(user.getUid()).child("birthdate").toString());
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                if (snapshot.child("Users").child(user.getUid()).child("name").getValue() != null) {
+                    nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
+                    studentIDTextView.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
+                    mobileTextView.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
+                    birthdateTextView.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
+                }
+                else{
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull  DatabaseError error) {
+
+            }
+        });
 
     }
 }
