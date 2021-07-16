@@ -33,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     TextView nameTextView,emailTextView,toolBarTitle,studentIDTextView,mobileTextView,birthdateTextView;
     private FirebaseAuth.AuthStateListener authStateListener;
-private UiModeManager ui;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,39 +58,6 @@ private UiModeManager ui;
         mobileTextView = findViewById(R.id.mobileTextView);
         birthdateTextView = findViewById(R.id.birthdateTextView);
         themechangeButton = findViewById(R.id.themechangeButton);
-        ToggleButton tb = findViewById(R.id.togglebutton);
-        ui = (UiModeManager) getSystemService(UI_MODE_SERVICE);
-        tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    getApplicationContext().setTheme(R.style.LightTheme);
-                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    //Toast.makeText(ProfileActivity.this, getApplicationContext().getTheme().toString(), Toast.LENGTH_SHORT).show();
-                    //recreate();
-                    //ui.setNightMode(UiModeManager.MODE_NIGHT_NO);
-                } else {
-                    getApplicationContext().setTheme(R.style.DarkTheme);
-                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    //Toast.makeText(ProfileActivity.this, getApplicationContext().getTheme().toString(), Toast.LENGTH_SHORT).show();
-
-                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    //ui.setNightMode(UiModeManager.MODE_NIGHT_YES);
-                    //recreate();
-                }
-            }
-        });
-        themechangeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-                getApplicationContext().setTheme(R.style.DarkTheme);
-                Toast.makeText(ProfileActivity.this, getApplicationContext().getTheme().toString(), Toast.LENGTH_SHORT).show();
-                recreate();
-            }
-        });
 
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,4 +132,5 @@ private UiModeManager ui;
         });
 
     }
+
 }
