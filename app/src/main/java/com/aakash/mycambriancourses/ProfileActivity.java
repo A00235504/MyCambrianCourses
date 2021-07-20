@@ -59,6 +59,14 @@ public class ProfileActivity extends AppCompatActivity {
         birthdateTextView = findViewById(R.id.birthdateTextView);
         themechangeButton = findViewById(R.id.themechangeButton);
 
+        themechangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent I = new Intent(ProfileActivity.this, RegisterActivity.class);
+                startActivity(I);
+            }
+        });
+
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

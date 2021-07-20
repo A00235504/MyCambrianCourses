@@ -3,7 +3,12 @@ package com.aakash.mycambriancourses;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aakash.mycambriancourses.adapters.AllCoursesRecyclerViewAdapter;
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.aakash.mycambriancourses.adapters.PopularCoursesRecyclerViewAdapter;
 import com.bumptech.glide.Glide;
@@ -34,34 +40,42 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 TextView allCoursesButton,profilenameTextView;
 ImageView profileImage,profileImageNavigationdrawerImageView;
-    private RecyclerView recyclerView;
+    private RecyclerView popularCoursesRecyclerView,allCoursesRecyclerView;
     PopularCoursesRecyclerViewAdapter adapter;
-    DatabaseReference mbase;
+    AllCoursesRecyclerViewAdapter allCoursesAdapter;
+    DatabaseReference mbase, allCoursesDatabaseRef;
     NavigationView nav;
-    public DrawerLayout drawerLayout;
+
     public ActionBarDrawerToggle actionBarDrawerToggle;
     ImageView menuImageViewButton;
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.my_drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.bringToFront();
+
         menuImageViewButton = findViewById(R.id.menuButton);
         profileImage = findViewById(R.id.profileImage);
         drawerLayout = findViewById(R.id.my_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
-
-        // pass the Open and Close toggle for the drawer layout listener
-        // to toggle the button
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header);
 
@@ -73,9 +87,13 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.main_menu);
         }
+//        navigationView.setNavigationItemSelectedListener(this);
+
         //TextView user = (TextView) headerView.findViewById(R.id.loginTextId);
         profileImageNavigationdrawerImageView = headerView.findViewById(R.id.img_profilenavigationheader);
         profilenameTextView = headerView.findViewById(R.id.profilenameTextView);
+
+
         menuImageViewButton.setVisibility(View.VISIBLE);
         profileImage.setVisibility(View.VISIBLE);
         menuImageViewButton.setOnClickListener(new View.OnClickListener() {
@@ -135,15 +153,17 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,ProfileActivity.class));
+
             }
         });
 
         mbase = FirebaseDatabase.getInstance().getReference().child("Popularcourses");
 
-        recyclerView = findViewById(R.id.recyclerView);
+        popularCoursesRecyclerView = findViewById(R.id.recyclerView);
 
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        LinearLayoutManager popularcoursesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        popularCoursesRecyclerView.setLayoutManager(popularcoursesLayoutManager);
+        //popularCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
         FirebaseRecyclerOptions<AllCourses> options
                 = new FirebaseRecyclerOptions.Builder<AllCourses>()
@@ -152,14 +172,60 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
 
         adapter = new PopularCoursesRecyclerViewAdapter(options);
         // Connecting Adapter class with the Recycler view*/
-        recyclerView.setAdapter(adapter);
+        popularCoursesRecyclerView.setAdapter(adapter);
 
+        
+        //new recycler view
+        allCoursesDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Courses");
 
+        allCoursesRecyclerView = findViewById(R.id.allCoursesRecyclerView);
 
+        LinearLayoutManager allcoursesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        allCoursesRecyclerView.setLayoutManager(allcoursesLayoutManager);
+
+        //allCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
+        FirebaseRecyclerOptions<AllCourses> options1
+                = new FirebaseRecyclerOptions.Builder<AllCourses>()
+                .setQuery(allCoursesDatabaseRef, AllCourses.class)
+                .build();
+
+        allCoursesAdapter = new AllCoursesRecyclerViewAdapter(options1);
+        // Connecting Adapter class with the Recycler view*/
+        allCoursesRecyclerView.setAdapter(allCoursesAdapter);
 
     }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
 
+        // 4 - Handle Navigation Item Click
+        int id = item.getItemId();
 
+        switch (id){
+            case R.id.all_courses:
+                startActivity(new Intent(MainActivity.this,CoursesListActivity.class));
+                Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.profile_page:
+                startActivity(new Intent(MainActivity.this,ProfileActivity.class));
+                Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.register_page:
+                startActivity(new Intent(MainActivity.this,RegisterActivity.class));
+                Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.about_us:
+                startActivity(new Intent(MainActivity.this,CoursesListActivity.class));
+                Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+
+        drawerLayout.close();
+
+        return true;
+    }
 
     @Override protected void onStart()
     {
@@ -174,14 +240,9 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         super.onStop();
         adapter.stopListening();
     }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -205,5 +266,6 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         alertDialog.show();
 
     }
+
 
 }

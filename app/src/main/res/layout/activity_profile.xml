@@ -174,14 +174,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="15dp"
-                android:text="Theme Change" />
-            <ToggleButton
-                android:id="@+id/togglebutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textOff="Light"
-                android:textOn="Dark"
-                />
+                android:text="Register User" />
+
         </LinearLayout>
 
     </LinearLayout>
