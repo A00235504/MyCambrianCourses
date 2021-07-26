@@ -47,7 +47,7 @@
 
 
             <ImageView
-                android:id="@+id/profileImage"
+                android:id="@+id/profileImageToolbar"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:visibility="gone"

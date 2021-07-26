@@ -47,7 +47,7 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
     PopularCoursesRecyclerViewAdapter adapter;
     AllCoursesRecyclerViewAdapter allCoursesAdapter;
     DatabaseReference mbase, allCoursesDatabaseRef;
-    NavigationView nav;
+
 
     public ActionBarDrawerToggle actionBarDrawerToggle;
     ImageView menuImageViewButton;
@@ -60,8 +60,6 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.my_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,7 +71,7 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         navigationView.bringToFront();
 
         menuImageViewButton = findViewById(R.id.menuButton);
-        profileImage = findViewById(R.id.profileImage);
+        profileImage = findViewById(R.id.profileImageToolbar);
         drawerLayout = findViewById(R.id.my_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
 
@@ -99,6 +97,7 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         menuImageViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
@@ -147,7 +146,7 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
             startActivity(new Intent(MainActivity.this,CoursesListActivity.class));
         }
     });
-        profileImage = findViewById(R.id.profileImage);
+
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,24 +174,24 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         popularCoursesRecyclerView.setAdapter(adapter);
 
         
-        //new recycler view
-        allCoursesDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Courses");
-
-        allCoursesRecyclerView = findViewById(R.id.allCoursesRecyclerView);
-
-        LinearLayoutManager allcoursesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        allCoursesRecyclerView.setLayoutManager(allcoursesLayoutManager);
-
-        //allCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-
-        FirebaseRecyclerOptions<AllCourses> options1
-                = new FirebaseRecyclerOptions.Builder<AllCourses>()
-                .setQuery(allCoursesDatabaseRef, AllCourses.class)
-                .build();
-
-        allCoursesAdapter = new AllCoursesRecyclerViewAdapter(options1);
-        // Connecting Adapter class with the Recycler view*/
-        allCoursesRecyclerView.setAdapter(allCoursesAdapter);
+//        //new recycler view
+//        allCoursesDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Courses");
+//
+//        allCoursesRecyclerView = findViewById(R.id.allCoursesRecyclerView);
+//
+//        LinearLayoutManager allcoursesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//        allCoursesRecyclerView.setLayoutManager(allcoursesLayoutManager);
+//
+//        //allCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+//
+//        FirebaseRecyclerOptions<AllCourses> options1
+//                = new FirebaseRecyclerOptions.Builder<AllCourses>()
+//                .setQuery(allCoursesDatabaseRef, AllCourses.class)
+//                .build();
+//
+//        allCoursesAdapter = new AllCoursesRecyclerViewAdapter(options1);
+//        // Connecting Adapter class with the Recycler view*/
+//        allCoursesRecyclerView.setAdapter(allCoursesAdapter);
 
     }
     @Override

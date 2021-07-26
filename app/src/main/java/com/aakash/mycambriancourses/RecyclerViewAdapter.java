@@ -1,5 +1,6 @@
 package com.aakash.mycambriancourses;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, RecyclerViewAdapter.personsViewholder> {
     List<String> myListData;
+
     public RecyclerViewAdapter(
             @NonNull FirebaseRecyclerOptions<AllCourses> options)
     {
@@ -43,6 +45,36 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
         myListData = new ArrayList<>();
         holder.firstname.setText(model.getcoursename());
         Glide.with(holder.itemView.getContext()).load(model.getImage()).into(holder.imageurl);
+
+        holder.imageurl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference();
+
+                ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot != null) {
+//                        String retrievedValue=dataSnapshot.child(selectedFromList).getValue().toString();
+//                        Toast.makeText(activity_name.this, "Value: "+retrievedValue, Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(v.getContext(), CourseViewActivity.class);
+                            i.putExtra("Title", dataSnapshot.child("Courses").child("Course" + (position+1)).child("coursename").getValue().toString());
+                            i.putExtra("Description", dataSnapshot.child("Courses").child("Course" + (position+1)).child("coursedescription").getValue().toString());
+                            i.putExtra("Imagelink", dataSnapshot.child("Courses").child("Course" + (position+1)).child("image").getValue().toString());
+                            v.getContext().startActivity(i);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                }
+        });
 
         holder.addCourseTextView.setOnClickListener(new View.OnClickListener() {
             @Override

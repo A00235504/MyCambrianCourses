@@ -1,5 +1,6 @@
 package com.aakash.mycambriancourses.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aakash.mycambriancourses.CourseViewActivity;
 import com.aakash.mycambriancourses.R;
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.bumptech.glide.Glide;
@@ -28,6 +30,14 @@ public class AllCoursesRecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCo
     {
         holder.allcoursetextTextView.setText(model.getcoursename());
         Glide.with(holder.itemView.getContext()).load(model.getImage()).into(holder.allcourseimageImageView);
+
+        holder.allcourseimageImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), CourseViewActivity.class);
+                v.getContext().startActivity(i);
+            }
+        });
 
     }
 
