@@ -10,7 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:windowSoftInputMode="adjustResize"
         android:theme="@style/LightTheme">
+        <activity android:name=".EditProfileActivity"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".CourseViewActivity" />
         <activity android:name=".RemoveCoursesActivity" />
         <activity android:name=".ProfileActivity" />

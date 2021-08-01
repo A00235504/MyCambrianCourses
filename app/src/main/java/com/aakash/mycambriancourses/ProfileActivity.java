@@ -29,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button btnLogOut,removeCoursesButton,themechangeButton;
+    Button btnLogOut,removeCoursesButton,themechangeButton, editProfileButton;
     FirebaseAuth firebaseAuth;
     TextView nameTextView,emailTextView,toolBarTitle,studentIDTextView,mobileTextView,birthdateTextView;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -58,6 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         mobileTextView = findViewById(R.id.mobileTextView);
         birthdateTextView = findViewById(R.id.birthdateTextView);
         themechangeButton = findViewById(R.id.themechangeButton);
+        editProfileButton = findViewById(R.id.editProfileButton);
 
         themechangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +84,14 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intentremovecourses = new Intent(ProfileActivity.this, RemoveCoursesActivity.class);
                 startActivity(intentremovecourses);
+            }
+        });
+
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intenteditprofile = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                startActivity(intenteditprofile);
             }
         });
 
