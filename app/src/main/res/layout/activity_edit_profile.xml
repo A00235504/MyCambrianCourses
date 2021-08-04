@@ -35,8 +35,10 @@
         android:gravity="center_vertical|center_horizontal"
         android:orientation="vertical">
         <ImageView
+            android:id="@+id/profileImageView"
             android:layout_height="100dp"
             android:layout_width="100dp"
+            android:scaleType="fitXY"
             android:src="@drawable/back"
             />
         <TableLayout
@@ -170,6 +172,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Birth Date"
                     android:text=""
+                    android:textColor="@color/white"
                     android:textColorHint="@color/white"
                     android:backgroundTint="@android:color/white"
                     android:textCursorDrawable="@drawable/white_cursor"
