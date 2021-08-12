@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button btnLogOut,removeCoursesButton,themechangeButton, editProfileButton;
+    Button btnLogOut,removeCoursesButton,registerUserButton, editProfileButton;
     FirebaseAuth firebaseAuth;
     TextView nameTextView,emailTextView,toolBarTitle,studentIDTextView,mobileTextView,birthdateTextView;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -47,22 +47,27 @@ public class ProfileActivity extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
         toolBarTitle = findViewById(R.id.toolbarText);
-        if(GlobalData.showAdminOptions == false) {
-            toolBarTitle.setText("Profile");
-        }
-        else{
-            toolBarTitle.setText("Admin Profile");
-        }
+
         removeCoursesButton = findViewById(R.id.removeCoursesButton);
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
         emailTextView = findViewById(R.id.emailTextView);
         studentIDTextView = findViewById(R.id.studentIDTextView);
         mobileTextView = findViewById(R.id.mobileTextView);
         birthdateTextView = findViewById(R.id.birthdateTextView);
-        themechangeButton = findViewById(R.id.themechangeButton);
+        registerUserButton = findViewById(R.id.themechangeButton);
         editProfileButton = findViewById(R.id.editProfileButton);
         profileImageView = findViewById(R.id.profilePageImageView);
-        themechangeButton.setOnClickListener(new View.OnClickListener() {
+
+        if(!GlobalData.showAdminOptions) {
+            toolBarTitle.setText("Profile");
+            registerUserButton.setVisibility(View.GONE);
+        }
+        else{
+            toolBarTitle.setText("Admin Profile");
+            registerUserButton.setVisibility(View.VISIBLE);
+        }
+
+        registerUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent I = new Intent(ProfileActivity.this, RegisterActivity.class);
@@ -102,12 +107,18 @@ public class ProfileActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                if (snapshot.child("Users").child(user.getUid()).child("name").getValue() != null) {
-                    nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
-                    studentIDTextView.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
-                    mobileTextView.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
-                    birthdateTextView.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
-                    Glide.with(ProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
+                if (snapshot.child("Users").child(user.getUid()).getValue() != null) {
+                    try{
+                        nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
+                        studentIDTextView.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
+                        mobileTextView.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
+                        birthdateTextView.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
+                        Glide.with(ProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
+
+                    }
+                    catch (Exception e){
+Log.e("error","error in profile page");
+                    }
                 }
                 else{
 
@@ -135,11 +146,17 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
                 if (snapshot.child("Users").child(user.getUid()).child("name").getValue() != null) {
-                    nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
-                    studentIDTextView.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
-                    mobileTextView.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
-                    birthdateTextView.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
-                    Glide.with(ProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
+                    try{
+                        nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
+                        studentIDTextView.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
+                        mobileTextView.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
+                        birthdateTextView.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
+                        Glide.with(ProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
+
+                    }
+                    catch (Exception e){
+                        Log.e("error","error in profile page");
+                    }
 
                 }
                 else{

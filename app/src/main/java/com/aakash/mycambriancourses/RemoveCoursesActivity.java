@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,17 +22,19 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RemoveCoursesActivity extends AppCompatActivity {
 ArrayList<String> dl;
 ListView ls;
+TextView noCoursesTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remove_courses);
 
         ls = findViewById(R.id.mylistview);
+        noCoursesTextView = findViewById(R.id.noCourseTextView);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("MyCourses");
@@ -42,6 +45,7 @@ ListView ls;
             @Override
             public void onDataChange(@NonNull  DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    noCoursesTextView.setVisibility(View.GONE);
                     dl.clear();
                     for(DataSnapshot dss:snapshot.getChildren()){
                         String nn = dss.getValue(String.class);
@@ -55,8 +59,9 @@ ListView ls;
                     }
                     Log.e("dldata",stringBuilder.toString());
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(RemoveCoursesActivity.this, android.R.layout.simple_list_item_1, dl );
+                    CustomAdapter adapter = new CustomAdapter(getApplicationContext(),  dl);
 
-                    ls.setAdapter(arrayAdapter);
+                   ls.setAdapter(adapter);
 
                     ls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -75,6 +80,9 @@ ListView ls;
                         }
                     });
                 }
+                else{
+                    noCoursesTextView.setVisibility(View.VISIBLE);
+                }
 
             }
 
@@ -85,5 +93,6 @@ ListView ls;
         });
 
 
-    }
+
+}
 }

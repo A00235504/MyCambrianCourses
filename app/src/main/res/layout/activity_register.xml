@@ -13,6 +13,19 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile Picture"
+        android:textSize="20sp"/>
+    <ImageView
+        android:id="@+id/profileSetImageView"
+        android:layout_height="100dp"
+        android:layout_width="100dp"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+        android:src="@drawable/back"
+        />
 
     <EditText
         android:id="@+id/ETemail"

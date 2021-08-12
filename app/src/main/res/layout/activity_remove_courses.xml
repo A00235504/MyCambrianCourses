@@ -23,4 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/mylistview"/>
+
+    <TextView
+        android:id="@+id/noCourseTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Courses Selected"
+        android:layout_gravity="center"
+        android:gravity="center"/>
 </LinearLayout>
