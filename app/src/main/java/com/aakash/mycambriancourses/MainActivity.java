@@ -41,7 +41,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-TextView allCoursesButton,profilenameTextView;
+TextView allCoursesButton,profilenameTextView, noticeTextView;
 ImageView profileImage,profileImageNavigationdrawerImageView;
     private RecyclerView popularCoursesRecyclerView,allCoursesRecyclerView;
     PopularCoursesRecyclerViewAdapter adapter;
@@ -70,6 +70,7 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
 
+        noticeTextView = findViewById(R.id.noticeTextView);
         menuImageViewButton = findViewById(R.id.menuButton);
         profileImage = findViewById(R.id.profileImageToolbar);
         drawerLayout = findViewById(R.id.my_drawer_layout);
@@ -125,6 +126,7 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
                                 .into(profileImageNavigationdrawerImageView);
                         profilenameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
                         //profileImage.setImageURI(Uri.parse(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()));
+                        noticeTextView.setText(snapshot.child("Notice").child("notice").getValue().toString());
                     }
                 } catch (Exception e) {
                     Log.e("imagedata",e.toString());

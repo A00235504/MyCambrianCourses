@@ -1,6 +1,7 @@
 package com.aakash.mycambriancourses;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aakash.mycambriancourses.ViewPagerFragments.FirstPage;
+import com.aakash.mycambriancourses.ViewPagerFragments.SecondPage;
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -46,6 +49,7 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
         holder.firstname.setText(model.getcoursename());
         Glide.with(holder.itemView.getContext()).load(model.getImage()).into(holder.imageurl);
 
+
         holder.imageurl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,12 +61,24 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot != null) {
-//                        String retrievedValue=dataSnapshot.child(selectedFromList).getValue().toString();
-//                        Toast.makeText(activity_name.this, "Value: "+retrievedValue, Toast.LENGTH_LONG).show();
+                            String name = dataSnapshot.child(model.getcoursename()).getKey();
+                            try {
+
+//                                String name = dataSnapshot.child("Courses").getValue(String.class);
+
+                                Toast.makeText(v.getContext(), name, Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e){
+                                Toast.makeText(v.getContext(), "error", Toast.LENGTH_SHORT).show();
+
+                            }
                             Intent i = new Intent(v.getContext(), CourseViewActivity.class);
-                            i.putExtra("Title", dataSnapshot.child("Courses").child("Course" + (position+1)).child("coursename").getValue().toString());
-                            i.putExtra("Description", dataSnapshot.child("Courses").child("Course" + (position+1)).child("coursedescription").getValue().toString());
-                            i.putExtra("Imagelink", dataSnapshot.child("Courses").child("Course" + (position+1)).child("image").getValue().toString());
+
+                            i.putExtra("Title", dataSnapshot.child("Courses").child(name).child("coursename").getValue().toString());
+                            i.putExtra("Description", dataSnapshot.child("Courses").child(name).child("coursedescription").getValue().toString());
+                            i.putExtra("Imagelink", dataSnapshot.child("Courses").child(name).child("image").getValue().toString());
+                            i.putExtra("Opportunity", dataSnapshot.child("Courses").child(name).child("opportunity").getValue().toString());
+
                             v.getContext().startActivity(i);
                         }
                     }

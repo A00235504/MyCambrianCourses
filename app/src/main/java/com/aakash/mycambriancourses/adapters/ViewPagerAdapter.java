@@ -1,5 +1,7 @@
 package com.aakash.mycambriancourses.adapters;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -10,11 +12,15 @@ import com.aakash.mycambriancourses.ViewPagerFragments.SecondPage;
 
 public class ViewPagerAdapter
         extends FragmentPagerAdapter {
-
+String description, title, imageurl, opportunity;
     public ViewPagerAdapter(
-            @NonNull FragmentManager fm)
+            @NonNull FragmentManager fm, String description, String title, String imageurl, String opportunity)
     {
         super(fm);
+        this.description = description;
+        this.title = title;
+        this.imageurl = imageurl;
+        this.opportunity = opportunity;
     }
 
     @NonNull
@@ -22,20 +28,28 @@ public class ViewPagerAdapter
     public Fragment getItem(int position)
     {
         Fragment fragment = null;
-        if (position == 0)
+        if (position == 0){
             fragment = new FirstPage();
-        else if (position == 1)
+        Bundle bundle = new Bundle();
+        bundle.putString("Description", description);
+        bundle.putString("Title", title);
+            bundle.putString("Imagelink", title);
+        fragment.setArguments(bundle);
+        }
+        else if (position == 1) {
             fragment = new SecondPage();
-        else if (position == 2)
-            fragment = new FirstPage();
-
+            Bundle bundle = new Bundle();
+            bundle.putString("Opportunity", opportunity);
+            bundle.putString("Title", title);
+            fragment.setArguments(bundle);
+        }
         return fragment;
     }
 
     @Override
     public int getCount()
     {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -43,11 +57,10 @@ public class ViewPagerAdapter
     {
         String title = null;
         if (position == 0)
-            title = "Algorithm";
+            title = "Details";
         else if (position == 1)
-            title = "Courses";
-        else if (position == 2)
-            title = "Login";
+            title = "Opportunities";
+
         return title;
     }
 }

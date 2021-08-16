@@ -8,6 +8,7 @@ import com.aakash.mycambriancourses.model.AllCourses;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import android.os.Bundle;
 
@@ -34,6 +35,7 @@ public class CoursesListActivity extends AppCompatActivity {
 
         // It is a class provide by the FirebaseUI to make a
         // query in the database to fetch appropriate data
+
         FirebaseRecyclerOptions<AllCourses> options
                 = new FirebaseRecyclerOptions.Builder<AllCourses>()
                 .setQuery(mbase, AllCourses.class)

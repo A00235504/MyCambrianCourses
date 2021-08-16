@@ -5,6 +5,22 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:text="Welcome \n To"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:text="My Cambrian Courses"/>
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/loginEmail"
         android:layout_width="match_parent"
@@ -32,5 +48,10 @@
         android:text="Login In"
         android:textSize="25sp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="New Here? \nContact your course Administrator for login details." />
 
 </LinearLayout>

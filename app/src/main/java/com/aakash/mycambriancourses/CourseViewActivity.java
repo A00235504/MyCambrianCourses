@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 
 public class CourseViewActivity extends AppCompatActivity {
-TextView titleTextView, descriptionTextView;
+TextView titleTextView, descriptionTextView, toolBarTitle;
 ImageView courseImageView;
 
     TabLayout tabLayout;
@@ -26,24 +26,29 @@ ImageView courseImageView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_view);
 
+        toolBarTitle = findViewById(R.id.toolbarText);
 
 
         viewPager = findViewById(R.id.pager);
         tabLayout = findViewById(R.id.tabLayout);
 
         viewPagerAdapter = new ViewPagerAdapter(
-                getSupportFragmentManager());
+                getSupportFragmentManager(),getIntent().getStringExtra("Description"),
+                getIntent().getStringExtra("Title"), getIntent().getStringExtra("Imagelink"),
+                getIntent().getStringExtra("Opportunity"));
 
         viewPager.setAdapter(viewPagerAdapter);
 
         // It is used to join TabLayout with ViewPager.
         tabLayout.setupWithViewPager(viewPager);
+        String title = getIntent().getStringExtra("Title");
+        toolBarTitle.setText(title);
 
-//        titleTextView = (TextView)findViewById(R.id.courseTitleTextView);
+        //        titleTextView = (TextView)findViewById(R.id.courseTitleTextView);
 //        descriptionTextView = (TextView)findViewById(R.id.courseDescriptionTextView1);
 //        courseImageView = findViewById(R.id.courseViewImageView);
 //
-//        String title = getIntent().getStringExtra("Title");
+
 //        String description = getIntent().getStringExtra("Description");
 //        String imagelink = getIntent().getStringExtra("Imagelink");
 //

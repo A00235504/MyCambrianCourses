@@ -153,7 +153,7 @@
 </TableLayout>
 
 
-
+</LinearLayout>
 
             </LinearLayout>
 
@@ -185,7 +185,16 @@
                 android:layout_margin="15dp"
                 android:text="Register User" />
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/addCourseButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="Add Courses" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
 
     </LinearLayout>
     </ScrollView>

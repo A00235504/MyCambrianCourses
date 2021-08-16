@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button btnLogOut,removeCoursesButton,registerUserButton, editProfileButton;
+    Button btnLogOut,removeCoursesButton,registerUserButton, editProfileButton, addCoursesButton;
     FirebaseAuth firebaseAuth;
     TextView nameTextView,emailTextView,toolBarTitle,studentIDTextView,mobileTextView,birthdateTextView;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -57,14 +57,17 @@ public class ProfileActivity extends AppCompatActivity {
         registerUserButton = findViewById(R.id.themechangeButton);
         editProfileButton = findViewById(R.id.editProfileButton);
         profileImageView = findViewById(R.id.profilePageImageView);
+        addCoursesButton = findViewById(R.id.addCourseButton);
 
         if(!GlobalData.showAdminOptions) {
             toolBarTitle.setText("Profile");
             registerUserButton.setVisibility(View.GONE);
+            addCoursesButton.setVisibility(View.GONE);
         }
         else{
             toolBarTitle.setText("Admin Profile");
             registerUserButton.setVisibility(View.VISIBLE);
+            addCoursesButton.setVisibility(View.VISIBLE);
         }
 
         registerUserButton.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +101,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intenteditprofile = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                startActivity(intenteditprofile);
+            }
+        });
+
+        addCoursesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intenteditprofile = new Intent(ProfileActivity.this, AddCourses.class);
                 startActivity(intenteditprofile);
             }
         });
