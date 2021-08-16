@@ -152,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 ref.child("Users").child(user.getUid()).child("birthdate").setValue(String.valueOf(birthdateEditText.getText()));
 
                                 Toast.makeText(RegisterActivity.this.getApplicationContext(),
-                                        "Registration sucess ",
+                                        "Registration sucess",
                                         Toast.LENGTH_SHORT).show();
                                 //startActivity(new Intent(RegisterActivity.this, MainActivity.class));
 
