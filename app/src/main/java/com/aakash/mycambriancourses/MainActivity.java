@@ -176,25 +176,6 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         popularCoursesRecyclerView.setAdapter(adapter);
 
         
-//        //new recycler view
-//        allCoursesDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Courses");
-//
-//        allCoursesRecyclerView = findViewById(R.id.allCoursesRecyclerView);
-//
-//        LinearLayoutManager allcoursesLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        allCoursesRecyclerView.setLayoutManager(allcoursesLayoutManager);
-//
-//        //allCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-//
-//        FirebaseRecyclerOptions<AllCourses> options1
-//                = new FirebaseRecyclerOptions.Builder<AllCourses>()
-//                .setQuery(allCoursesDatabaseRef, AllCourses.class)
-//                .build();
-//
-//        allCoursesAdapter = new AllCoursesRecyclerViewAdapter(options1);
-//        // Connecting Adapter class with the Recycler view*/
-//        allCoursesRecyclerView.setAdapter(allCoursesAdapter);
-
     }
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -205,19 +186,15 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         switch (id){
             case R.id.all_courses:
                 startActivity(new Intent(MainActivity.this,CoursesListActivity.class));
-                Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.profile_page:
                 startActivity(new Intent(MainActivity.this,ProfileActivity.class));
-                Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.register_page:
                 startActivity(new Intent(MainActivity.this,RegisterActivity.class));
-                Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.about_us:
-                startActivity(new Intent(MainActivity.this,CoursesListActivity.class));
-                Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this,AboutUs.class));
                 break;
             default:
                 break;

@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogIn = findViewById(R.id.btnLogIn);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
+
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -45,10 +46,13 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Admin Login sucess", Toast.LENGTH_SHORT).show();
                         Intent I = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(I);
-                    }else{
-                    Toast.makeText(LoginActivity.this, "User logged in ", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+
+                    Toast.makeText(LoginActivity.this, "User logged in "+ user, Toast.LENGTH_SHORT).show();
                     Intent I = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(I);
+
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "Login to continue", Toast.LENGTH_SHORT).show();
@@ -94,5 +98,28 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.addAuthStateListener(authStateListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        //this.finish();
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Exit Alert");
+        alertDialog.setIcon(R.drawable.profile_icon);
+
+        alertDialog.setMessage("Do you really want to exit the App?");
+        alertDialog.setButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finishAffinity();
+                System.exit(0);
+                return;
+            } });
+        alertDialog.setButton2("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                return;
+            }});
+        alertDialog.show();
+
+    }
 
 }

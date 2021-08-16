@@ -54,4 +54,10 @@
         android:textAlignment="center"
         android:text="New Here? \nContact your course Administrator for login details." />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
 </LinearLayout>

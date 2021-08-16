@@ -5,11 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".ViewPagerFragments.FirstPage">
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/getdescription"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
+        android:text=""
+        android:textSize="15sp"
+        android:padding="10dp"/>
+</ScrollView>
 </FrameLayout>

@@ -156,10 +156,15 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                                 //startActivity(new Intent(RegisterActivity.this, MainActivity.class));
 
-
+                                FirebaseAuth.getInstance().signOut();
+                                Intent I = new Intent(RegisterActivity.this, LoginActivity.class);
+                                finish();
+                                startActivity(I);
                             }
                         }
                     });
+
+
                 } else {
                     Toast.makeText(RegisterActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
@@ -265,4 +270,6 @@ public class RegisterActivity extends AppCompatActivity {
             imageURL = data.getData().toString();
         }
     }
-    }
+
+
+}
