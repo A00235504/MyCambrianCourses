@@ -10,21 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aakash.mycambriancourses.R;
-import com.aakash.mycambriancourses.model.AllCourses;
+import com.aakash.mycambriancourses.model.Popularcourses;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-public class PopularCoursesRecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, PopularCoursesRecyclerViewAdapter.popularcoursesViewholder> {
+public class PopularCoursesRecyclerViewAdapter extends FirebaseRecyclerAdapter<Popularcourses, PopularCoursesRecyclerViewAdapter.popularcoursesViewholder> {
     public PopularCoursesRecyclerViewAdapter(
-            @NonNull FirebaseRecyclerOptions<AllCourses> options)
+            @NonNull FirebaseRecyclerOptions<Popularcourses> options)
     {
         super(options);
     }
 
     @Override
     protected void
-    onBindViewHolder(@NonNull popularcoursesViewholder holder, int position, @NonNull AllCourses model)
+    onBindViewHolder(@NonNull popularcoursesViewholder holder, int position, @NonNull Popularcourses model)
     {
         holder.coursetextTextView.setText(model.getcoursename());
         Glide.with(holder.itemView.getContext()).load(model.getImage()).into(holder.courseimageImageView);

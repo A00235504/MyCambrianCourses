@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class CoursesListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -18,14 +19,18 @@ public class CoursesListActivity extends AppCompatActivity {
             adapter; // Create Object of the Adapter class
     DatabaseReference mbase; // Create object of the
     // Firebase Realtime Database
+    TextView toolBarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses_list);
 
-        mbase
-                = FirebaseDatabase.getInstance().getReference().child("Courses");
+        toolBarTitle = findViewById(R.id.toolbarText);
+
+        toolBarTitle.setText("Courses");
+
+        mbase = FirebaseDatabase.getInstance().getReference().child("Courses");
 
         recyclerView = findViewById(R.id.recyclerView);
 

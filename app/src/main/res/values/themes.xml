@@ -16,4 +16,11 @@
     </style>
 
 
+    <style name="TitleTextStyle" parent="Widget.MaterialComponents.TextView">
+
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
 </resources>

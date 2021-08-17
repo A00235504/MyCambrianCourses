@@ -62,16 +62,7 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot != null) {
                             String name = dataSnapshot.child(model.getcoursename()).getKey();
-                            try {
 
-//                                String name = dataSnapshot.child("Courses").getValue(String.class);
-
-                                Toast.makeText(v.getContext(), name, Toast.LENGTH_SHORT).show();
-                            }
-                            catch (Exception e){
-                                Toast.makeText(v.getContext(), "error", Toast.LENGTH_SHORT).show();
-
-                            }
                             Intent i = new Intent(v.getContext(), CourseViewActivity.class);
 
                             i.putExtra("Title", dataSnapshot.child("Courses").child(name).child("coursename").getValue().toString());

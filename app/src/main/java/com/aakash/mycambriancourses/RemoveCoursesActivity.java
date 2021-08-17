@@ -26,11 +26,15 @@ import java.util.ArrayList;
 public class RemoveCoursesActivity extends AppCompatActivity {
 ArrayList<String> dl;
 ListView ls;
-TextView noCoursesTextView;
+TextView noCoursesTextView, toolBarTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remove_courses);
+
+        toolBarTitle = findViewById(R.id.toolbarText);
+
+        toolBarTitle.setText("Remove Courses");
 
         ls = findViewById(R.id.mylistview);
         noCoursesTextView = findViewById(R.id.noCourseTextView);

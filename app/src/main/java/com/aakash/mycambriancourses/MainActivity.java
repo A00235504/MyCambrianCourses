@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.aakash.mycambriancourses.adapters.AllCoursesRecyclerViewAdapter;
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.aakash.mycambriancourses.adapters.PopularCoursesRecyclerViewAdapter;
+import com.aakash.mycambriancourses.model.Popularcourses;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.internal.NavigationMenu;
@@ -46,7 +47,7 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
     private RecyclerView popularCoursesRecyclerView,allCoursesRecyclerView;
     PopularCoursesRecyclerViewAdapter adapter;
     AllCoursesRecyclerViewAdapter allCoursesAdapter;
-    DatabaseReference mbase, allCoursesDatabaseRef;
+    DatabaseReference mbase, allCoursesDatabaseRef, ref;
 
 
     public ActionBarDrawerToggle actionBarDrawerToggle;
@@ -158,7 +159,9 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
             }
         });
 
-        mbase = FirebaseDatabase.getInstance().getReference().child("Popularcourses");
+
+        ref = FirebaseDatabase.getInstance().getReference();
+        mbase = ref.child("Popularcourses");
 
         popularCoursesRecyclerView = findViewById(R.id.recyclerView);
 
@@ -166,16 +169,35 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         popularCoursesRecyclerView.setLayoutManager(popularcoursesLayoutManager);
         //popularCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
-        FirebaseRecyclerOptions<AllCourses> options
-                = new FirebaseRecyclerOptions.Builder<AllCourses>()
-                .setQuery(mbase, AllCourses.class)
+        FirebaseRecyclerOptions<Popularcourses> options
+                = new FirebaseRecyclerOptions.Builder<Popularcourses>()
+                .setQuery(mbase, Popularcourses.class)
                 .build();
 
         adapter = new PopularCoursesRecyclerViewAdapter(options);
         // Connecting Adapter class with the Recycler view*/
         popularCoursesRecyclerView.setAdapter(adapter);
 
-        
+
+
+        allCoursesDatabaseRef = ref.child("Courses");
+
+
+
+        allCoursesRecyclerView = findViewById(R.id.recyclerView1);
+        LinearLayoutManager allcoursesLayout = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        allCoursesRecyclerView.setLayoutManager(allcoursesLayout);
+        //popularCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
+        FirebaseRecyclerOptions<AllCourses> options1
+                = new FirebaseRecyclerOptions.Builder<AllCourses>()
+                .setQuery(allCoursesDatabaseRef, AllCourses.class)
+                .build();
+
+        allCoursesAdapter = new AllCoursesRecyclerViewAdapter(options1);
+        // Connecting Adapter class with the Recycler view*/
+        allCoursesRecyclerView.setAdapter(allCoursesAdapter);
+
     }
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -209,6 +231,8 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
     {
         super.onStart();
         adapter.startListening();
+        allCoursesAdapter.startListening();
+
     }
 
     // Function to tell the app to stop getting
@@ -217,8 +241,8 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
     {
         super.onStop();
         adapter.stopListening();
+        allCoursesAdapter.stopListening();
     }
-
 
 
     @Override
@@ -244,6 +268,5 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         alertDialog.show();
 
     }
-
 
 }
