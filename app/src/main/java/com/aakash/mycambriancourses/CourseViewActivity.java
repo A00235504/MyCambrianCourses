@@ -26,12 +26,7 @@ ImageView courseImageView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_view);
 
-        toolBarTitle = findViewById(R.id.toolbarText);
-
-
-        viewPager = findViewById(R.id.pager);
-        tabLayout = findViewById(R.id.tabLayout);
-
+        getID();
         viewPagerAdapter = new ViewPagerAdapter(
                 getSupportFragmentManager(),getIntent().getStringExtra("Description"),
                 getIntent().getStringExtra("Title"), getIntent().getStringExtra("Imagelink"),
@@ -39,22 +34,16 @@ ImageView courseImageView;
 
         viewPager.setAdapter(viewPagerAdapter);
 
-        // It is used to join TabLayout with ViewPager.
         tabLayout.setupWithViewPager(viewPager);
         String title = getIntent().getStringExtra("Title");
         toolBarTitle.setText(title);
 
-        //        titleTextView = (TextView)findViewById(R.id.courseTitleTextView);
-//        descriptionTextView = (TextView)findViewById(R.id.courseDescriptionTextView1);
-//        courseImageView = findViewById(R.id.courseViewImageView);
-//
 
-//        String description = getIntent().getStringExtra("Description");
-//        String imagelink = getIntent().getStringExtra("Imagelink");
-//
-//        titleTextView.setText(title);
-//        descriptionTextView.setText(description);
-//        Glide.with(getApplicationContext()).load(imagelink).into(courseImageView);
+    }
 
+    public void getID(){
+        toolBarTitle = findViewById(R.id.toolbarText);
+        viewPager = findViewById(R.id.pager);
+        tabLayout = findViewById(R.id.tabLayout);
     }
 }

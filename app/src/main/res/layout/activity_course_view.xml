@@ -16,7 +16,6 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
@@ -25,36 +24,5 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"/>
-<!--    -->
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:padding="5dp"-->
-<!--        >-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical">-->
-<!--<ImageView-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:scaleType="fitCenter"-->
-<!--    android:id="@+id/courseViewImageView"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/courseTitleTextView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Demo"/>-->
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Course Description"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:id="@+id/courseDescriptionTextView1"/>-->
-<!--        </LinearLayout>-->
-<!--    </ScrollView>-->
 
 </LinearLayout>

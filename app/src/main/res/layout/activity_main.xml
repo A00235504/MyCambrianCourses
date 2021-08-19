@@ -46,8 +46,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="25sp"
+                style="@style/TitleTextStyle"
                 android:text="Popular Courses" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -72,18 +71,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
                         android:text="All courses"
                         android:layout_weight="1"
-                        android:textSize="25sp" />
+                        style="@style/TitleTextStyle"
+                        />
 
                     <TextView
                         android:id="@+id/allcourses"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        style="@style/TitleTextStyle"
                         android:text="More"
-                        android:textSize="20sp" />
+                         />
 
                 </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView

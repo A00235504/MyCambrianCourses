@@ -1,7 +1,6 @@
-package com.aakash.mycambriancourses;
+package com.aakash.mycambriancourses.adapters;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aakash.mycambriancourses.ViewPagerFragments.FirstPage;
-import com.aakash.mycambriancourses.ViewPagerFragments.SecondPage;
+import com.aakash.mycambriancourses.CourseViewActivity;
+import com.aakash.mycambriancourses.R;
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;

@@ -22,7 +22,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
+            style="@style/EditProfileEditText"
             android:hint="Course Name"
             android:id="@+id/courseNameEditText"/>
 
@@ -30,21 +30,21 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
+            style="@style/EditProfileEditText"
             android:hint="Course description"
             android:id="@+id/courseDescriptionEditText"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
+            style="@style/EditProfileEditText"
             android:hint="Course Opportunity"
             android:id="@+id/courseOpportunityEditText"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
+            style="@style/EditProfileEditText"
             android:hint="Course Image Link"
             android:id="@+id/courseImageLinkEditText"/>
 
@@ -52,9 +52,10 @@
 
         <Button
             android:id="@+id/courseAddButton"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Submit"
+            style="@style/LoginButton"
             android:layout_gravity="center"
             android:gravity="center"/>
     </LinearLayout>

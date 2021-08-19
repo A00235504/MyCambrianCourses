@@ -4,21 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aakash.mycambriancourses.adapters.RecyclerViewAdapter;
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
 public class CoursesListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    RecyclerViewAdapter
-            adapter; // Create Object of the Adapter class
-    DatabaseReference mbase; // Create object of the
-    // Firebase Realtime Database
+    RecyclerViewAdapter adapter; // Create Object of the Adapter class
+    DatabaseReference mbase; // Create object of the Firebase Realtime Database
     TextView toolBarTitle;
 
     @Override
@@ -26,17 +24,14 @@ public class CoursesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses_list);
 
-        toolBarTitle = findViewById(R.id.toolbarText);
+        getID();
 
         toolBarTitle.setText("Courses");
 
         mbase = FirebaseDatabase.getInstance().getReference().child("Courses");
 
-        recyclerView = findViewById(R.id.recyclerView);
-
         // To display the Recycler view linearly
-        recyclerView.setLayoutManager(
-                new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // It is a class provide by the FirebaseUI to make a
         // query in the database to fetch appropriate data
@@ -66,5 +61,10 @@ public class CoursesListActivity extends AppCompatActivity {
     {
         super.onStop();
         adapter.stopListening();
+    }
+
+    public void getID(){
+        toolBarTitle = findViewById(R.id.toolbarText);
+        recyclerView = findViewById(R.id.recyclerView);
     }
 }

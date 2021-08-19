@@ -1,4 +1,4 @@
-package com.aakash.mycambriancourses;
+package com.aakash.mycambriancourses.adapters;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aakash.mycambriancourses.R;
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;

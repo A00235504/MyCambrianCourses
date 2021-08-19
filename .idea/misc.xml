@@ -6,6 +6,8 @@
         <entry key="app/src/main/res/layout/activity_about_us.xml" value="0.24895833333333334" />
         <entry key="app/src/main/res/layout/activity_add_courses.xml" value="0.24895833333333334" />
         <entry key="app/src/main/res/layout/activity_course_view.xml" value="0.24512820512820513" />
+        <entry key="app/src/main/res/layout/activity_courses_list.xml" value="0.24512820512820513" />
+        <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.24512820512820513" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.24512820512820513" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.24512820512820513" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.24512820512820513" />
@@ -16,7 +18,10 @@
         <entry key="app/src/main/res/layout/fragment_first_page.xml" value="0.24895833333333334" />
         <entry key="app/src/main/res/layout/fragment_second_page.xml" value="0.1265625" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.24512820512820513" />
-        <entry key="app/src/main/res/layout/removecourse_item.xml" value="0.24895833333333334" />
+        <entry key="app/src/main/res/layout/nav_header.xml" value="0.24512820512820513" />
+        <entry key="app/src/main/res/layout/popular_courses_list_item.xml" value="0.24512820512820513" />
+        <entry key="app/src/main/res/layout/removecourse_item.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/toolbar_custom.xml" value="0.24512820512820513" />
       </map>
     </option>
   </component>

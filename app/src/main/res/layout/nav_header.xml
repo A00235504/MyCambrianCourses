@@ -7,9 +7,7 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:background="@color/purple_500">
-
-
+    android:background="@color/yello_dark">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,7 +27,9 @@
             android:id="@+id/profilenameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
+            android:paddingTop="10dp"
+            android:text="Name"
+            style="@style/NavigationDrawerTextStyle"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 

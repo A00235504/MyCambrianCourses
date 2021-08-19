@@ -42,184 +42,34 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.UUID;
 
-public class EditProfileActivity extends AppCompatActivity {
-TextView toolBarTitle;
-EditText nameEditText, emailEditText, studentIdEditText, mobileEditText, birthdateEditText;
-Button submitButton;
-ImageView profileImageView;
+public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
+    TextView toolBarTitle;
+    EditText nameEditText, emailEditText, studentIdEditText, mobileEditText, birthdateEditText;
+    Button submitButton;
+    ImageView profileImageView;
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
     final Calendar myCalendar = Calendar.getInstance();
-
     String imageURL;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        getID();
+        Firebasegetdata();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-
-        toolBarTitle = findViewById(R.id.toolbarText);
         toolBarTitle.setText("Edit Profile");
 
-        nameEditText = findViewById(R.id.nameEditTextView);
-        emailEditText = findViewById(R.id.emailEditTextView);
-        studentIdEditText = findViewById(R.id.studentidEditTextView);
-        mobileEditText = findViewById(R.id.mobileEditTextView);
-        birthdateEditText = findViewById(R.id.birthdateEditText);
-        profileImageView = findViewById(R.id.profileImageView);
-
-        submitButton = findViewById(R.id.saveProfileButton);
-
-        if(user.getEmail() != null){
-            try{
-            emailEditText.setText(user.getEmail());
-        }
-            catch (Exception e){
-                Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else{
-            emailEditText.setText("Loading..");
-        }
-
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child("Users").child(user.getUid()).child("name").getValue() != null) {
-                    nameEditText.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
-                    studentIdEditText.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
-                    mobileEditText.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
-                    birthdateEditText.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
-
-                    if (!isDestroyed()) {
-                    Glide.with(EditProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
-//                    profileImageView.setImageURI(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue());
-                }}
-                else{
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-
-                ref.child("Users").child(user.getUid()).child("name").setValue(String.valueOf(nameEditText.getText()));
-                ref.child("Users").child(user.getUid()).child("studentid").setValue(String.valueOf(studentIdEditText.getText()));
-                ref.child("Users").child(user.getUid()).child("mobilenumber").setValue(String.valueOf(mobileEditText.getText()));
-                ref.child("Users").child(user.getUid()).child("birthdate").setValue(String.valueOf(birthdateEditText.getText()));
-
-                //ref.child("Users").child(user.getUid()).child("profileimage").setValue(imageURL);
-
-
-                StorageReference storageRef = storage.getReference();
-                String uuid = UUID.randomUUID().toString();
-                StorageReference mountainsRef = storageRef.child("images/"+ uuid);
-                //StorageReference mountainsRef = storageRef.child("mountains.jpg");
-
-                //StorageReference mountainImagesRef = storageRef.child("images/mountains.jpg");
-
-
-                profileImageView.setDrawingCacheEnabled(true);
-                profileImageView.buildDrawingCache();
-                Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] data = baos.toByteArray();
-
-                UploadTask uploadTask = mountainsRef.putBytes(data);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                        // ...
-                        String downloadUrl = taskSnapshot.getMetadata().getPath();
-
-                        StorageMetadata metada = taskSnapshot.getMetadata();
-                        Task<Uri> down = mountainsRef.getDownloadUrl();
-                        taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                ref.child("Users").child(user.getUid()).child("profileimage").setValue(uri.toString());
-
-
-                            }
-                        });
-
-                    }
-                });
-            }
-        });
-
-        birthdateEditText= (EditText) findViewById(R.id.birthdateEditText);
-        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-
-        };
-
-        birthdateEditText.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(EditProfileActivity.this, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
-
-        //handle button click
-        profileImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //check runtime permission
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_DENIED){
-                        //permission not granted, request it.
-                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                        //show popup for runtime permission
-                        requestPermissions(permissions, PERMISSION_CODE);
-                    }
-                    else {
-                        //permission already granted
-                        pickImageFromGallery();
-                    }
-                }
-                else {
-                    //system os is less then marshmallow
-                    pickImageFromGallery();
-                }
-
-            }
-        });
+        submitButton.setOnClickListener(this);
+        submitButton.setOnClickListener(this);
+        birthdateEditText.setOnClickListener(this);
+        profileImageView.setOnClickListener(this);
 
     }
 
@@ -265,5 +115,143 @@ ImageView profileImageView;
 
             imageURL = data.getData().toString();
         }
+    }
+
+    public void getID(){
+        toolBarTitle = findViewById(R.id.toolbarText);
+        nameEditText = findViewById(R.id.nameEditTextView);
+        emailEditText = findViewById(R.id.emailEditTextView);
+        studentIdEditText = findViewById(R.id.studentidEditTextView);
+        mobileEditText = findViewById(R.id.mobileEditTextView);
+        birthdateEditText = findViewById(R.id.birthdateEditText);
+        profileImageView = findViewById(R.id.profileImageView);
+        submitButton = findViewById(R.id.saveProfileButton);
+        birthdateEditText= findViewById(R.id.birthdateEditText);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.saveProfileButton:
+
+                ref.child("Users").child(user.getUid()).child("name").setValue(String.valueOf(nameEditText.getText()));
+                ref.child("Users").child(user.getUid()).child("studentid").setValue(String.valueOf(studentIdEditText.getText()));
+                ref.child("Users").child(user.getUid()).child("mobilenumber").setValue(String.valueOf(mobileEditText.getText()));
+                ref.child("Users").child(user.getUid()).child("birthdate").setValue(String.valueOf(birthdateEditText.getText()));
+
+                StorageReference storageRef = storage.getReference();
+                String uuid = UUID.randomUUID().toString();
+                StorageReference mountainsRef = storageRef.child("images/"+ uuid);
+
+                profileImageView.setDrawingCacheEnabled(true);
+                profileImageView.buildDrawingCache();
+                Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                UploadTask uploadTask = mountainsRef.putBytes(data);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        StorageMetadata metada = taskSnapshot.getMetadata();
+                        Task<Uri> down = mountainsRef.getDownloadUrl();
+                        taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                ref.child("Users").child(user.getUid()).child("profileimage").setValue(uri.toString());
+                            }
+                        });
+
+                    }
+                });
+                break;
+
+            case R.id.birthdateEditText:
+                DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        updateLabel();
+                    }
+
+                };
+                // TODO Auto-generated method stub
+                new DatePickerDialog(EditProfileActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+                break;
+
+            case R.id.profileImageView:
+                //check runtime permission
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_DENIED){
+                        //permission not granted, request it.
+                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                        //show popup for runtime permission
+                        requestPermissions(permissions, PERMISSION_CODE);
+                    }
+                    else {
+                        //permission already granted
+                        pickImageFromGallery();
+                    }
+                }
+                else {
+                    //system os is less then marshmallow
+                    pickImageFromGallery();
+                }
+                break;
+        }
+    }
+
+    public void Firebasegetdata(){
+        if(user.getEmail() != null){
+            try{
+                emailEditText.setText(user.getEmail());
+            }
+            catch (Exception e){
+                Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Enter Email ID", Toast.LENGTH_SHORT).show();
+        }
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("Users").child(user.getUid()).child("name").getValue() != null) {
+                    nameEditText.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
+                    studentIdEditText.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
+                    mobileEditText.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
+                    birthdateEditText.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
+
+                    if (!isDestroyed()) {
+                        Glide.with(EditProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
+                    }}
+                else{
+                    Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }

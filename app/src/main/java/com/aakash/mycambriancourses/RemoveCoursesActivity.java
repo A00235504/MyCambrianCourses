@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aakash.mycambriancourses.adapters.CustomAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,79 +25,81 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class RemoveCoursesActivity extends AppCompatActivity {
-ArrayList<String> dl;
-ListView ls;
+ArrayList<String> arrayList;
+ListView listview;
 TextView noCoursesTextView, toolBarTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remove_courses);
 
-        toolBarTitle = findViewById(R.id.toolbarText);
+        getID();
 
         toolBarTitle.setText("Remove Courses");
 
-        ls = findViewById(R.id.mylistview);
-        noCoursesTextView = findViewById(R.id.noCourseTextView);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("MyCourses");
-
-        dl = new ArrayList<>();
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    noCoursesTextView.setVisibility(View.GONE);
-                    dl.clear();
-                    for(DataSnapshot dss:snapshot.getChildren()){
-                        String nn = dss.getValue(String.class);
-                        dl.add(nn);
-
-                    }
-
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for(int i=0;i<dl.size();i++){
-                        stringBuilder.append(dl.get(i) + ",");
-                    }
-                    Log.e("dldata",stringBuilder.toString());
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(RemoveCoursesActivity.this, android.R.layout.simple_list_item_1, dl );
-                    CustomAdapter adapter = new CustomAdapter(getApplicationContext(),  dl);
-
-                   ls.setAdapter(adapter);
-
-                    ls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(RemoveCoursesActivity.this, "the position:"+position, Toast.LENGTH_SHORT).show();
-                            //DatabaseReference item = ref.child("Users").child(user.getUid()).child("MyCourses").child(String.valueOf(position)) ;
-                            //item.removeValue();
-                            dl.remove(position);
-//                            ref.child("Users").child(user.getUid()).child("MyCourses");
-                            ref.setValue(null);
-                            ref.setValue(dl);
-                            //Toast.makeText(RemoveCoursesActivity.this, "item:"+item, Toast.LENGTH_SHORT).show();
-                            //ref.child("Users").child(user.getUid()).child("MyCourses").remove();
-
-                            ls.setAdapter(arrayAdapter);
-                        }
-                    });
-                }
-                else{
-                    noCoursesTextView.setVisibility(View.VISIBLE);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        getFirebaseData();
 
 
 
 }
+ public void getID(){
+     toolBarTitle = findViewById(R.id.toolbarText);
+     noCoursesTextView = findViewById(R.id.noCourseTextView);
+     listview = findViewById(R.id.mylistview);
+     noCoursesTextView = findViewById(R.id.noCourseTextView);
+ }
+
+ public void getFirebaseData(){
+     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("MyCourses");
+
+     arrayList = new ArrayList<>();
+
+     ref.addListenerForSingleValueEvent(new ValueEventListener() {
+         @Override
+         public void onDataChange(@NonNull  DataSnapshot snapshot) {
+             if(snapshot.exists()){
+                 noCoursesTextView.setVisibility(View.GONE);
+                 arrayList.clear();
+                 for(DataSnapshot dss:snapshot.getChildren()){
+                     String nn = dss.getValue(String.class);
+                     arrayList.add(nn);
+
+                 }
+
+                 StringBuilder stringBuilder = new StringBuilder();
+                 for(int i=0;i<arrayList.size();i++){
+                     stringBuilder.append(arrayList.get(i) + ",");
+                 }
+                 Log.e("dldata",stringBuilder.toString());
+                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(RemoveCoursesActivity.this, android.R.layout.simple_list_item_1, arrayList );
+                 CustomAdapter adapter = new CustomAdapter(getApplicationContext(),  arrayList);
+
+                 listview.setAdapter(adapter);
+
+                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                     @Override
+                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                         Toast.makeText(RemoveCoursesActivity.this, "the position:"+position, Toast.LENGTH_SHORT).show();
+                         arrayList.remove(position);
+                         ref.setValue(null);
+                         ref.setValue(arrayList);
+                         listview.setAdapter(arrayAdapter);
+                     }
+                 });
+             }
+             else{
+                 noCoursesTextView.setVisibility(View.VISIBLE);
+             }
+
+         }
+
+         @Override
+         public void onCancelled(@NonNull DatabaseError error) {
+
+         }
+     });
+
+ }
 }

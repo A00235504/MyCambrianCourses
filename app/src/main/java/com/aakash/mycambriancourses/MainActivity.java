@@ -3,18 +3,15 @@ package com.aakash.mycambriancourses;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,15 +20,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.aakash.mycambriancourses.GlobalData.GlobalData;
 import com.aakash.mycambriancourses.adapters.AllCoursesRecyclerViewAdapter;
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.aakash.mycambriancourses.adapters.PopularCoursesRecyclerViewAdapter;
 import com.aakash.mycambriancourses.model.Popularcourses;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,7 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-TextView allCoursesButton,profilenameTextView, noticeTextView;
+TextView allCoursesButton,profilenameTextView, noticeTextView, toolbarTitle,toolbarTextDarkMode;
 ImageView profileImage,profileImageNavigationdrawerImageView;
     private RecyclerView popularCoursesRecyclerView,allCoursesRecyclerView;
     PopularCoursesRecyclerViewAdapter adapter;
@@ -51,10 +47,9 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
 
 
     public ActionBarDrawerToggle actionBarDrawerToggle;
-    ImageView menuImageViewButton;
+    ImageView menuImageViewButton,menuButtonDarkMode;
 
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +66,9 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
 
+        toolbarTitle = findViewById(R.id.toolbarText);
+        menuButtonDarkMode = findViewById(R.id.menuButtonDarkMode);
+        toolbarTextDarkMode = findViewById(R.id.toolbarTextDarkMode);
         noticeTextView = findViewById(R.id.noticeTextView);
         menuImageViewButton = findViewById(R.id.menuButton);
         profileImage = findViewById(R.id.profileImageToolbar);
@@ -78,6 +76,27 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
 
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header);
+
+        toolbarTitle.setText("HomePage");
+        switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                toolbarTextDarkMode.setText("HomePage");
+                toolbarTitle.setVisibility(View.GONE);
+                toolbarTextDarkMode.setVisibility(View.VISIBLE);
+                menuImageViewButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                menuButtonDarkMode.setVisibility(View.VISIBLE);
+                menuImageViewButton.setVisibility(View.GONE);
+                break;
+            case Configuration.UI_MODE_NIGHT_NO:
+                toolbarTitle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                toolbarTitle.setText("HomePage");
+                toolbarTitle.setVisibility(View.VISIBLE);
+                toolbarTextDarkMode.setVisibility(View.GONE);
+                menuButtonDarkMode.setVisibility(View.GONE);
+                menuImageViewButton.setVisibility(View.VISIBLE);
+                break;
+        }
+            toolbarTitle.setTextColor(getResources().getColor(R.color.black));
 
         if(GlobalData.showAdminOptions == true){
             navigationView.getMenu().clear();
@@ -87,14 +106,11 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.main_menu);
         }
-//        navigationView.setNavigationItemSelectedListener(this);
-
-        //TextView user = (TextView) headerView.findViewById(R.id.loginTextId);
         profileImageNavigationdrawerImageView = headerView.findViewById(R.id.img_profilenavigationheader);
         profilenameTextView = headerView.findViewById(R.id.profilenameTextView);
 
 
-        menuImageViewButton.setVisibility(View.VISIBLE);
+
         profileImage.setVisibility(View.VISIBLE);
         menuImageViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,8 +119,14 @@ ImageView profileImage,profileImageNavigationdrawerImageView;
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
-        // to make the Navigation drawer icon always appear on the action bar
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        menuButtonDarkMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 

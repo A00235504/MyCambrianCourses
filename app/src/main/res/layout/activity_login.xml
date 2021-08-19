@@ -8,26 +8,21 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textSize="40sp"
+        style="@style/LoginTextView"
         android:text="Welcome \n To"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textSize="30sp"
+        style="@style/LoginTextView"
         android:text="My Cambrian Courses"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/loginEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
         android:hint="@string/email"
-        android:text=""
+        style="@style/RegisterEditText"
         android:autofillHints="@string/email"
         android:inputType="textEmailAddress" />
 
@@ -37,27 +32,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:hint="Password"
-        android:text=""
+        style="@style/RegisterEditText"
         android:inputType="numberPassword"/>
 
     <Button
         android:id="@+id/btnLogIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
         android:text="Login In"
-        android:textSize="25sp" />
+        style="@style/LoginButton" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="New Here? \nContact your course Administrator for login details." />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
 
 </LinearLayout>

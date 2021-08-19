@@ -13,8 +13,7 @@
         android:contentInsetRight="0dp"
         android:contentInsetEnd="0dp"
         app:contentInsetRight="0dp"
-        app:contentInsetEnd="0dp"
-        >
+        app:contentInsetEnd="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,10 +28,16 @@
             <ImageView
                 android:id="@+id/menuButton"
                 android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:visibility="gone"
                 android:src="@drawable/menuicon"/>
 
+            <ImageView
+                android:id="@+id/menuButtonDarkMode"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                android:src="@drawable/menu_darkmode"/>
 
             <TextView
                 android:id="@+id/toolbarText"
@@ -40,16 +45,25 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="18sp"
-                android:textColor="@color/black"
+                style="@style/TitleTextStyle"
                 android:layout_gravity="center"
                 android:text="Home"/>
-
+            <TextView
+                android:id="@+id/toolbarTextDarkMode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                style="@style/TitleTextStyle"
+                android:layout_gravity="center"
+                android:text="Home"/>
 
             <ImageView
                 android:id="@+id/profileImageToolbar"
                 android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:visibility="gone"
                 android:src="@drawable/profilecircle"/>
 

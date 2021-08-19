@@ -1,4 +1,4 @@
-package com.aakash.mycambriancourses;
+package com.aakash.mycambriancourses.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Icon;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.aakash.mycambriancourses.R;
+
 import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter {
@@ -22,8 +24,6 @@ public class CustomAdapter extends BaseAdapter {
     public CustomAdapter(Context context, ArrayList<String> text1) {
         mContext = context;
         Title = text1;
-
-
     }
 
     public int getCount() {
@@ -47,7 +47,6 @@ public class CustomAdapter extends BaseAdapter {
         View row;
         row = inflater.inflate(R.layout.removecourse_item, parent, false);
         TextView title;
-        ImageView i1;
         title = (TextView) row.findViewById(R.id.textViewCountry);
         title.setText(Title.get(position));
 

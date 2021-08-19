@@ -12,9 +12,9 @@
     <TextView
         android:id="@+id/getdescription"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text=""
-        android:textSize="15sp"
+        style="@style/CourseViewTextStyle"
         android:padding="10dp"/>
 </ScrollView>
 </FrameLayout>

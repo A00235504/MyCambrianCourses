@@ -8,8 +8,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:background="@color/purple_500"
+                android:background="@color/yellow"
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="vertical">
 <ImageView
@@ -50,15 +48,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name: "
-            android:textColor="@color/white"
-            android:textSize="20sp"/>
+            style="@style/ProfileTextView"/>
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="User Name"
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            style="@style/ProfileTextView"/>
 
     </TableRow>
 
@@ -70,15 +66,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email: "
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            style="@style/ProfileTextView"/>
         <TextView
             android:id="@+id/emailTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="User Email"
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            style="@style/ProfileTextView"/>
 
 
     </TableRow>
@@ -92,15 +86,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Student ID: "
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            style="@style/ProfileTextView"/>
         <TextView
             android:id="@+id/studentIDTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Student ID"
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            style="@style/ProfileTextView"/>
 
 
     </TableRow>
@@ -114,15 +106,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mobile Number: "
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            style="@style/ProfileTextView"/>
+
         <TextView
             android:id="@+id/mobileTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mobile Number"
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            style="@style/ProfileTextView"/>
 
 
     </TableRow>
@@ -136,15 +127,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Birth Date: "
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            style="@style/ProfileTextView"/>
         <TextView
             android:id="@+id/birthdateTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Birth Date"
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            style="@style/ProfileTextView"/>
 
 
     </TableRow>
@@ -164,16 +153,14 @@
                 android:id="@+id/removeCoursesButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="15dp"
+                style="@style/ProfileButton"
                 android:text="Remove Courses" />
 
             <Button
                 android:id="@+id/editProfileButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="15dp"
+                style="@style/ProfileButton"
                 android:text="Edit Profile" />
 
 
@@ -181,15 +168,14 @@
                 android:id="@+id/themechangeButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="15dp"
+                style="@style/ProfileButton"
                 android:text="Register User" />
 
             <Button
                 android:id="@+id/addCourseButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                style="@style/ProfileButton"
                 android:text="Add Courses" />
 
         <Space
@@ -203,7 +189,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="15dp"
+        style="@style/ProfileButton"
         android:text="Logout" />
 
 </RelativeLayout>
