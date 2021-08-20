@@ -27,8 +27,10 @@ EditText courseNameEditText, courseDescriptionEditText, courseOpportunityEditTex
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_courses);
 
+        //calling a function for all ids
         getIDs();
 
+        //firebase database reference
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Courses");
 
         toolBarTitle.setText("Add Courses");
@@ -61,7 +63,7 @@ EditText courseNameEditText, courseDescriptionEditText, courseOpportunityEditTex
         });
     }
 
-
+//all ids defined here
     public void getIDs(){
         toolBarTitle = findViewById(R.id.toolbarText);
         courseAddButton = findViewById(R.id.courseAddButton);

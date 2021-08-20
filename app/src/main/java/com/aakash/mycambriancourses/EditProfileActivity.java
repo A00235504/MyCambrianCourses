@@ -57,6 +57,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        //firebase storage and iinstance defined
         FirebaseStorage storage = FirebaseStorage.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -80,6 +81,7 @@ public class EditProfileActivity extends AppCompatActivity {
             emailEditText.setText("Loading..");
         }
 
+        //setting the database with the values from edit text
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -106,53 +108,59 @@ public class EditProfileActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                try {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
-                ref.child("Users").child(user.getUid()).child("name").setValue(String.valueOf(nameEditText.getText()));
-                ref.child("Users").child(user.getUid()).child("studentid").setValue(String.valueOf(studentIdEditText.getText()));
-                ref.child("Users").child(user.getUid()).child("mobilenumber").setValue(String.valueOf(mobileEditText.getText()));
-                ref.child("Users").child(user.getUid()).child("birthdate").setValue(String.valueOf(birthdateEditText.getText()));
-
-
-
-                StorageReference storageRef = storage.getReference();
-                String uuid = UUID.randomUUID().toString();
-                StorageReference mountainsRef = storageRef.child("images/"+ uuid);
-
-                profileImageView.setDrawingCacheEnabled(true);
-                profileImageView.buildDrawingCache();
-                Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] data = baos.toByteArray();
-
-                UploadTask uploadTask = mountainsRef.putBytes(data);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        ref.child("Users").child(user.getUid()).child("profileimage").setValue("https://firebasestorage.googleapis.com/v0/b/courses-app-9c592.appspot.com/o/images%2Fca27f007-d38f-4e67-9314-bfe554df145c?alt=media&token=ba6057a7-4dd6-4ab8-9b0f-29bc625d5b47");
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        String downloadUrl = taskSnapshot.getMetadata().getPath();
-                        StorageMetadata metada = taskSnapshot.getMetadata();
-                        Task<Uri> down = mountainsRef.getDownloadUrl();
-                        taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                ref.child("Users").child(user.getUid()).child("profileimage").setValue(uri.toString());
+                    ref.child("Users").child(user.getUid()).child("name").setValue(String.valueOf(nameEditText.getText()));
+                    ref.child("Users").child(user.getUid()).child("studentid").setValue(String.valueOf(studentIdEditText.getText()));
+                    ref.child("Users").child(user.getUid()).child("mobilenumber").setValue(String.valueOf(mobileEditText.getText()));
+                    ref.child("Users").child(user.getUid()).child("birthdate").setValue(String.valueOf(birthdateEditText.getText()));
 
 
-                            }
-                        });
+                    StorageReference storageRef = storage.getReference();
+                    String uuid = UUID.randomUUID().toString();
+                    StorageReference mountainsRef = storageRef.child("images/" + uuid);
 
-                    }
-                });
+                    profileImageView.setDrawingCacheEnabled(true);
+                    profileImageView.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] data = baos.toByteArray();
+
+                    UploadTask uploadTask = mountainsRef.putBytes(data);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                            ref.child("Users").child(user.getUid()).child("profileimage").setValue("https://firebasestorage.googleapis.com/v0/b/courses-app-9c592.appspot.com/o/images%2Fca27f007-d38f-4e67-9314-bfe554df145c?alt=media&token=ba6057a7-4dd6-4ab8-9b0f-29bc625d5b47");
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            String downloadUrl = taskSnapshot.getMetadata().getPath();
+                            StorageMetadata metada = taskSnapshot.getMetadata();
+                            Task<Uri> down = mountainsRef.getDownloadUrl();
+                            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    ref.child("Users").child(user.getUid()).child("profileimage").setValue(uri.toString());
+
+
+                                }
+                            });
+
+                        }
+                    });
+
+            }catch(
+            Exception e)
+            {
+                e.printStackTrace();
             }
+        }
         });
 
 

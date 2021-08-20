@@ -26,7 +26,10 @@ ImageView courseImageView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_view);
 
+        //getting all ids
         getID();
+
+        //view adapter for tabbar
         viewPagerAdapter = new ViewPagerAdapter(
                 getSupportFragmentManager(),getIntent().getStringExtra("Description"),
                 getIntent().getStringExtra("Title"), getIntent().getStringExtra("Imagelink"),
@@ -35,12 +38,15 @@ ImageView courseImageView;
         viewPager.setAdapter(viewPagerAdapter);
 
         tabLayout.setupWithViewPager(viewPager);
+
+        //getting title and setting title on custom toolbar
         String title = getIntent().getStringExtra("Title");
         toolBarTitle.setText(title);
 
 
     }
 
+    //all ids defined here as function
     public void getID(){
         toolBarTitle = findViewById(R.id.toolbarText);
         viewPager = findViewById(R.id.pager);
