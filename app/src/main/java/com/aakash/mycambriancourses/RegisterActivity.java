@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aakash.mycambriancourses.GlobalData.GlobalData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -162,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                         ref.child("Users").child(user.getUid()).child("name").setValue(String.valueOf(userNameEditText.getText()));
                                         ref.child("Users").child(user.getUid()).child("mobilenumber").setValue(String.valueOf(mobileEditText.getText()));
-                                        ref.child("Users").child(user.getUid()).child("profileimage").setValue("image");
+                                        //ref.child("Users").child(user.getUid()).child("profileimage").setValue("image");
 
                                         StorageReference storageRef = storage.getReference();
                                         String uuid = UUID.randomUUID().toString();
@@ -193,19 +194,19 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                                 Log.e("image","part 1 inside");
-                                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                                // ...
+
                                                 String downloadUrl = taskSnapshot.getMetadata().getPath();
 
                                                 StorageMetadata metada = taskSnapshot.getMetadata();
                                                 Task<Uri> down = mountainsRef.getDownloadUrl();
+                                                Log.e("image",taskSnapshot.getStorage().getDownloadUrl().toString());
+
                                                 taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                    @Override
+                                                     @Override
                                                     public void onSuccess(Uri uri) {
                                                         Log.e("image","error in image upload in side sucess");
-                                                        Toast.makeText(RegisterActivity.this, "Image done", Toast.LENGTH_SHORT).show();
-//                                                        ref.child("Users").child(user.getUid()).child("profileimage").setValue(uri.toString());
-                                                        ref.child("Users").child(user.getUid()).child("profileimage").setValue("https://firebasestorage.googleapis.com/v0/b/courses-app-9c592.appspot.com/o/images%2Fca27f007-d38f-4e67-9314-bfe554df145c?alt=media&token=ba6057a7-4dd6-4ab8-9b0f-29bc625d5b47");
+                                                     ref.child("Users").child(user.getUid()).child("profileimage").setValue(uri.toString());
+                                                        //ref.child("Users").child(user.getUid()).child("profileimage").setValue("https://firebasestorage.googleapis.com/v0/b/courses-app-9c592.appspot.com/o/images%2Fca27f007-d38f-4e67-9314-bfe554df145c?alt=media&token=ba6057a7-4dd6-4ab8-9b0f-29bc625d5b47");
 
                                                     }
                                                 });
@@ -225,6 +226,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         Intent I = new Intent(RegisterActivity.this, LoginActivity.class);
                                         finish();
                                         startActivity(I);
+                                        GlobalData.showAdminOptions = false;
                                     }
                                 }
                             });

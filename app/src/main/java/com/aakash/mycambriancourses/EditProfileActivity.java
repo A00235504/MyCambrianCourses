@@ -89,9 +89,14 @@ public class EditProfileActivity extends AppCompatActivity {
                     mobileEditText.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
                     birthdateEditText.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
 
+                    try{
                     if (!isDestroyed()) {
                         Glide.with(EditProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
-                    }}
+                    }}catch (Exception e){
+                e.printStackTrace();
+
+                }
+                }
                 else{
 
                 }
@@ -113,8 +118,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 ref.child("Users").child(user.getUid()).child("studentid").setValue(String.valueOf(studentIdEditText.getText()));
                 ref.child("Users").child(user.getUid()).child("mobilenumber").setValue(String.valueOf(mobileEditText.getText()));
                 ref.child("Users").child(user.getUid()).child("birthdate").setValue(String.valueOf(birthdateEditText.getText()));
-
-
 
                 StorageReference storageRef = storage.getReference();
                 String uuid = UUID.randomUUID().toString();
