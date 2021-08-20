@@ -29,10 +29,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, RecyclerViewAdapter.personsViewholder> {
+public class AllCoursesViewListAdapter extends FirebaseRecyclerAdapter<AllCourses, AllCoursesViewListAdapter.personsViewholder> {
     List<String> myListData;
 
-    public RecyclerViewAdapter(
+    public AllCoursesViewListAdapter(
             @NonNull FirebaseRecyclerOptions<AllCourses> options)
     {
         super(options);
@@ -45,7 +45,7 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
     {
 
         myListData = new ArrayList<>();
-        holder.firstname.setText(model.getcoursename());
+        holder.name.setText(model.getcoursename());
         Glide.with(holder.itemView.getContext()).load(model.getImage()).into(holder.imageurl);
 
 
@@ -94,26 +94,15 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
                         if (dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue() != null) {
-
                             if (dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString().contains(model.getcoursename())) {
-                                Log.e("snapmain", "data exist");
                                 Toast.makeText(v.getContext(), "Course Already added!", Toast.LENGTH_SHORT).show();
                             } else {
-                                String olddata = dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString();
-                                //Log.e("snapmain", dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getValue().toString());
-//                                ref.child("Users").child(user.getUid()).child("MyCourses").
-//                                        setValue(String.valueOf(model.getFirstname() + " ,\n" + olddata));
                                 myListData.clear();
                                 for(int i=0;i<dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").getChildrenCount();i++){
-                                    Log.e("getdata",dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").child(String.valueOf(i)).getValue(String.class));
                                     myListData.add(dataSnapshot.child("Users").child(user.getUid()).child("MyCourses").child(String.valueOf(i)).getValue(String.class));
                                 }
-
-
                                 myListData.add(model.getcoursename().toString());
-
                                 ref.child("Users").child(user.getUid()).child("MyCourses").setValue(myListData);
                                 Toast.makeText(v.getContext(), "Course added Success!", Toast.LENGTH_SHORT).show();
                             }
@@ -121,8 +110,6 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
                             myListData.add(model.getcoursename().toString());
 
                             ref.child("Users").child(user.getUid()).child("MyCourses").setValue(myListData);
-//                                ref.child("Users").child(user.getUid()).child("MyCourses").
-//                                        setValue(String.valueOf(model.getFirstname()));
                             }
                         }
 
@@ -133,11 +120,6 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
 
                     }
                 });
-
-//                String datas = String.valueOf(ref.child("Users").child(user.getUid()).child("MyCourses").);
-//                Log.e("datas",datas);
-//                ref.child("Users").child(user.getUid()).child("MyCourses").updateChildren()
-//                        setValue(String.valueOf(model.getFirstname()));
 
             }
         });
@@ -154,24 +136,22 @@ public class RecyclerViewAdapter extends FirebaseRecyclerAdapter<AllCourses, Rec
         View view
                 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item, parent, false);
-        return new RecyclerViewAdapter.personsViewholder(view);
+        return new AllCoursesViewListAdapter.personsViewholder(view);
     }
 
     // Sub Class to create references of the views in Crad
     // view (here "person.xml")
     class personsViewholder
             extends RecyclerView.ViewHolder {
-        TextView firstname, addCourseTextView, age;
+        TextView name, addCourseTextView, age;
         ImageView imageurl;
         public personsViewholder(@NonNull View itemView)
         {
             super(itemView);
 
-            firstname = itemView.findViewById(R.id.textViewName);
+            name = itemView.findViewById(R.id.textViewName);
             imageurl = itemView.findViewById(R.id.imageViewurl);
             addCourseTextView = itemView.findViewById(R.id.addCourseTextView);
-//            lastname = itemView.findViewById(R.id.lastname);
-//            age = itemView.findViewById(R.id.age);
         }
     }
 }

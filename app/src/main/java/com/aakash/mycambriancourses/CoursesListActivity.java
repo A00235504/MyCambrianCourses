@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aakash.mycambriancourses.adapters.RecyclerViewAdapter;
+import com.aakash.mycambriancourses.adapters.AllCoursesViewListAdapter;
 import com.aakash.mycambriancourses.model.AllCourses;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class CoursesListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    RecyclerViewAdapter adapter; // Create Object of the Adapter class
+    AllCoursesViewListAdapter adapter; // Create Object of the Adapter class
     DatabaseReference mbase; // Create object of the Firebase Realtime Database
     TextView toolBarTitle;
 
@@ -42,7 +42,7 @@ public class CoursesListActivity extends AppCompatActivity {
                 .build();
         // Connecting object of required Adapter class to
         // the Adapter class itself
-        adapter = new RecyclerViewAdapter(options);
+        adapter = new AllCoursesViewListAdapter(options);
         // Connecting Adapter class with the Recycler view*/
         recyclerView.setAdapter(adapter);
     }
