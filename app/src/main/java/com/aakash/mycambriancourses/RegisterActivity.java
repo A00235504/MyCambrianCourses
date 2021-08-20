@@ -101,176 +101,176 @@ public class RegisterActivity extends AppCompatActivity {
             imageURL = data.getData().toString();
         }
     }
-public void getID(){
-    emailId = findViewById(R.id.ETemail);
-    passwd = findViewById(R.id.ETpassword);
-    btnSignUp = findViewById(R.id.signUpButton);
-    mobileEditText = findViewById(R.id.mobileNumberEditText);
-    studentIDEditText = findViewById(R.id.studentIDEditText);
-    profileImageView = findViewById(R.id.profileSetImageView);
+    public void getID(){
+        emailId = findViewById(R.id.ETemail);
+        passwd = findViewById(R.id.ETpassword);
+        btnSignUp = findViewById(R.id.signUpButton);
+        mobileEditText = findViewById(R.id.mobileNumberEditText);
+        studentIDEditText = findViewById(R.id.studentIDEditText);
+        profileImageView = findViewById(R.id.profileSetImageView);
 
-    userNameEditText = findViewById(R.id.username);
-    birthdateEditText= (EditText) findViewById(R.id.birthdateEditText);
-}
-public void clickListners()
-{
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-    firebaseAuth = FirebaseAuth.getInstance();
+        userNameEditText = findViewById(R.id.username);
+        birthdateEditText= (EditText) findViewById(R.id.birthdateEditText);
+    }
+    public void clickListners()
+    {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
 
-    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            // TODO Auto-generated method stub
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-        }
-
-    };
-
-    btnSignUp.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String emailID = emailId.getText().toString();
-            String paswd = passwd.getText().toString();
-            if (emailID.isEmpty()) {
-                emailId.setError("Provide your Email first!");
-                emailId.requestFocus();
-            } else if (paswd.isEmpty()) {
-                passwd.setError("Set your password");
-                passwd.requestFocus();
-            } else if (emailID.isEmpty() && paswd.isEmpty()) {
-                Toast.makeText(RegisterActivity.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
-            } else if (!(emailID.isEmpty() && paswd.isEmpty())) {
-                firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(
-                        RegisterActivity.this, new OnCompleteListener() {
-                            @Override
-                            public void onComplete(@NonNull Task task) {
-
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(RegisterActivity.this.getApplicationContext(),
-                                            "SignUp unsuccessful: " + task.getException().getMessage(),
-                                            Toast.LENGTH_SHORT).show();
-
-                                } else {
-
-                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                                    ref.child("Users").child(user.getUid()).child("name").setValue(String.valueOf(userNameEditText.getText()));
-                                    ref.child("Users").child(user.getUid()).child("mobilenumber").setValue(String.valueOf(mobileEditText.getText()));
-                                    ref.child("Users").child(user.getUid()).child("profileimage").setValue("image");
-
-                                    StorageReference storageRef = storage.getReference();
-                                    String uuid = UUID.randomUUID().toString();
-                                    StorageReference mountainsRef = storageRef.child("images/"+ uuid);
-                                    //StorageReference mountainsRef = storageRef.child("mountains.jpg");
-
-                                    //StorageReference mountainImagesRef = storageRef.child("images/mountains.jpg");
-
-                                    Log.e("error","erorororoor");
-                                    profileImageView.setDrawingCacheEnabled(true);
-                                    profileImageView.buildDrawingCache();
-                                    Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
-                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                                    byte[] data = baos.toByteArray();
-
-                                    Log.e("image","part 1");
-                                    UploadTask uploadTask = mountainsRef.putBytes(data);
-                                    Log.e("image","part 2");
-                                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception exception) {
-                                            // Handle unsuccessful uploads
-                                            Log.e("image","error in image upload");
-                                            ref.child("Users").child(user.getUid()).child("profileimage").setValue("https://firebasestorage.googleapis.com/v0/b/courses-app-9c592.appspot.com/o/images%2Fca27f007-d38f-4e67-9314-bfe554df145c?alt=media&token=ba6057a7-4dd6-4ab8-9b0f-29bc625d5b47");
-                                        }
-                                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                            Log.e("image","part 1 inside");
-                                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                            // ...
-                                            String downloadUrl = taskSnapshot.getMetadata().getPath();
-
-                                            StorageMetadata metada = taskSnapshot.getMetadata();
-                                            Task<Uri> down = mountainsRef.getDownloadUrl();
-                                            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                @Override
-                                                public void onSuccess(Uri uri) {
-                                                    Log.e("image","error in image upload in side sucess");
-                                                    Toast.makeText(RegisterActivity.this, "Image done", Toast.LENGTH_SHORT).show();
-                                                    ref.child("Users").child(user.getUid()).child("profileimage").setValue(uri.toString());
-
-
-                                                }
-                                            });
-                                        }
-                                    });
-
-
-                                    ref.child("Users").child(user.getUid()).child("studentid").setValue(String.valueOf(studentIDEditText.getText()));
-                                    ref.child("Users").child(user.getUid()).child("birthdate").setValue(String.valueOf(birthdateEditText.getText()));
-
-                                    Toast.makeText(RegisterActivity.this.getApplicationContext(),
-                                            "Registration sucess",
-                                            Toast.LENGTH_SHORT).show();
-                                    //startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-
-                                    FirebaseAuth.getInstance().signOut();
-                                    Intent I = new Intent(RegisterActivity.this, LoginActivity.class);
-                                    finish();
-                                    startActivity(I);
-                                }
-                            }
-                        });
-
-
-            } else {
-                Toast.makeText(RegisterActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
             }
-        }
-    });
 
-    birthdateEditText.setOnClickListener(new View.OnClickListener() {
+        };
 
-        @Override
-        public void onClick(View v) {
-            // TODO Auto-generated method stub
-            new DatePickerDialog(RegisterActivity.this, date, myCalendar
-                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-        }
-    });
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emailID = emailId.getText().toString();
+                String paswd = passwd.getText().toString();
+                if (emailID.isEmpty()) {
+                    emailId.setError("Provide your Email first!");
+                    emailId.requestFocus();
+                } else if (paswd.isEmpty()) {
+                    passwd.setError("Set your password");
+                    passwd.requestFocus();
+                } else if (emailID.isEmpty() && paswd.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
+                } else if (!(emailID.isEmpty() && paswd.isEmpty())) {
+                    firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(
+                            RegisterActivity.this, new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
 
-    profileImageView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //check runtime permission
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_DENIED){
-                    //permission not granted, request it.
-                    String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                    //show popup for runtime permission
-                    requestPermissions(permissions, PERMISSION_CODE);
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(RegisterActivity.this.getApplicationContext(),
+                                                "SignUp unsuccessful: " + task.getException().getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+
+                                    } else {
+
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                        ref.child("Users").child(user.getUid()).child("name").setValue(String.valueOf(userNameEditText.getText()));
+                                        ref.child("Users").child(user.getUid()).child("mobilenumber").setValue(String.valueOf(mobileEditText.getText()));
+                                        ref.child("Users").child(user.getUid()).child("profileimage").setValue("image");
+
+                                        StorageReference storageRef = storage.getReference();
+                                        String uuid = UUID.randomUUID().toString();
+                                        StorageReference mountainsRef = storageRef.child("images/"+ uuid);
+                                        //StorageReference mountainsRef = storageRef.child("mountains.jpg");
+
+                                        //StorageReference mountainImagesRef = storageRef.child("images/mountains.jpg");
+
+                                        Log.e("error","erorororoor");
+                                        profileImageView.setDrawingCacheEnabled(true);
+                                        profileImageView.buildDrawingCache();
+                                        Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
+                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                        byte[] data = baos.toByteArray();
+
+                                        Log.e("image","part 1");
+                                        UploadTask uploadTask = mountainsRef.putBytes(data);
+                                        Log.e("image","part 2");
+                                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception exception) {
+                                                // Handle unsuccessful uploads
+                                                Log.e("image","error in image upload");
+                                                ref.child("Users").child(user.getUid()).child("profileimage").setValue("https://firebasestorage.googleapis.com/v0/b/courses-app-9c592.appspot.com/o/images%2Fca27f007-d38f-4e67-9314-bfe554df145c?alt=media&token=ba6057a7-4dd6-4ab8-9b0f-29bc625d5b47");
+                                            }
+                                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                Log.e("image","part 1 inside");
+                                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                                                // ...
+                                                String downloadUrl = taskSnapshot.getMetadata().getPath();
+
+                                                StorageMetadata metada = taskSnapshot.getMetadata();
+                                                Task<Uri> down = mountainsRef.getDownloadUrl();
+                                                taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        Log.e("image","error in image upload in side sucess");
+                                                        Toast.makeText(RegisterActivity.this, "Image done", Toast.LENGTH_SHORT).show();
+//                                                        ref.child("Users").child(user.getUid()).child("profileimage").setValue(uri.toString());
+                                                        ref.child("Users").child(user.getUid()).child("profileimage").setValue("https://firebasestorage.googleapis.com/v0/b/courses-app-9c592.appspot.com/o/images%2Fca27f007-d38f-4e67-9314-bfe554df145c?alt=media&token=ba6057a7-4dd6-4ab8-9b0f-29bc625d5b47");
+
+                                                    }
+                                                });
+                                            }
+                                        });
+
+
+                                        ref.child("Users").child(user.getUid()).child("studentid").setValue(String.valueOf(studentIDEditText.getText()));
+                                        ref.child("Users").child(user.getUid()).child("birthdate").setValue(String.valueOf(birthdateEditText.getText()));
+
+                                        Toast.makeText(RegisterActivity.this.getApplicationContext(),
+                                                "Registration sucess",
+                                                Toast.LENGTH_SHORT).show();
+                                        //startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+
+                                        FirebaseAuth.getInstance().signOut();
+                                        Intent I = new Intent(RegisterActivity.this, LoginActivity.class);
+                                        finish();
+                                        startActivity(I);
+                                    }
+                                }
+                            });
+
+
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        birthdateEditText.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(RegisterActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //check runtime permission
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_DENIED){
+                        //permission not granted, request it.
+                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                        //show popup for runtime permission
+                        requestPermissions(permissions, PERMISSION_CODE);
+                    }
+                    else {
+                        //permission already granted
+                        pickImageFromGallery();
+                    }
                 }
                 else {
-                    //permission already granted
+                    //system os is less then marshmallow
                     pickImageFromGallery();
                 }
-            }
-            else {
-                //system os is less then marshmallow
-                pickImageFromGallery();
-            }
 
-        }
-    });
+            }
+        });
 
-}
+    }
 }

@@ -22,9 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button btnLogOut,removeCoursesButton,registerUserButton, editProfileButton, addCoursesButton;
+    Button btnLogOut, removeCoursesButton, registerUserButton, editProfileButton, addCoursesButton;
     FirebaseAuth firebaseAuth;
-    TextView nameTextView,emailTextView,toolBarTitle,studentIDTextView,mobileTextView,birthdateTextView;
+    TextView nameTextView, emailTextView, toolBarTitle, studentIDTextView, mobileTextView, birthdateTextView;
     private FirebaseAuth.AuthStateListener authStateListener;
     ImageView profileImageView;
 
@@ -50,12 +50,11 @@ public class ProfileActivity extends AppCompatActivity {
         profileImageView = findViewById(R.id.profilePageImageView);
         addCoursesButton = findViewById(R.id.addCourseButton);
 
-        if(!GlobalData.showAdminOptions) {
+        if (!GlobalData.showAdminOptions) {
             toolBarTitle.setText("Profile");
             registerUserButton.setVisibility(View.GONE);
             addCoursesButton.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             toolBarTitle.setText("Admin Profile");
             registerUserButton.setVisibility(View.VISIBLE);
             addCoursesButton.setVisibility(View.VISIBLE);
@@ -76,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Intent I = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(I);
+                GlobalData.showAdminOptions = false;
 
             }
         });
@@ -108,27 +108,30 @@ public class ProfileActivity extends AppCompatActivity {
         nameTextView = findViewById(R.id.nameTextView);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child("Users").child(user.getUid()).getValue() != null) {
-                    try{
+                    try {
                         nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
                         studentIDTextView.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
                         mobileTextView.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
                         birthdateTextView.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
-                        Glide.with(ProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
 
+                        if(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString().contentEquals("image")){
+                        profileImageView.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            Glide.with(ProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
+                        }
+                    } catch (Exception e) {
+                        Log.e("error", "error in profile page");
                     }
-                    catch (Exception e){
-Log.e("error","error in profile page");
-                    }
-                }
-                else{
+                } else {
 
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull  DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -146,28 +149,30 @@ Log.e("error","error in profile page");
         emailTextView.setText(user.getEmail());
         ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child("Users").child(user.getUid()).child("name").getValue() != null) {
-                    try{
+                    try {
                         nameTextView.setText(snapshot.child("Users").child(user.getUid()).child("name").getValue().toString());
                         studentIDTextView.setText(snapshot.child("Users").child(user.getUid()).child("studentid").getValue().toString());
                         mobileTextView.setText(snapshot.child("Users").child(user.getUid()).child("mobilenumber").getValue().toString());
                         birthdateTextView.setText(snapshot.child("Users").child(user.getUid()).child("birthdate").getValue().toString());
-                        Glide.with(ProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
-
+                        if(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString().contentEquals("image")){
+                            profileImageView.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            Glide.with(ProfileActivity.this).load(snapshot.child("Users").child(user.getUid()).child("profileimage").getValue().toString()).into(profileImageView);
+                        }
+                    } catch (Exception e) {
+                        Log.e("error", "error in profile page");
                     }
-                    catch (Exception e){
-                        Log.e("error","error in profile page");
-                    }
 
-                }
-                else{
+                } else {
 
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull  DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });

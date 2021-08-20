@@ -64,8 +64,8 @@
                 android:id="@+id/profileImageToolbar"
                 android:layout_width="30dp"
                 android:layout_height="50dp"
-                android:visibility="gone"
-                android:src="@drawable/profilecircle"/>
+                android:visibility="invisible"
+                android:src="@drawable/profile_icon"/>
 
 
         </LinearLayout>
