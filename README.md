@@ -5,19 +5,32 @@ About This is a simple course selection Application where a user can login in an
 
 The courses are added by the Admin person and can then be selected by the user in his course list. The App features are:
 1.App data saved in database 
+
 2. Admin and user App are the same 
-3. User profile registration done by Admin 
-4. User Profile details change within App 
-5. User login saved locally 
-6. Add new courses to course list in database from admin side
-7. Simple course view Tab bars
-8. A smart Navigation Drawer
-9. Customized Toolbar for fesh look
-10. Intuitive color scheme
-11. Splash Screen on startup
-12. Customized App logo
-13. Easy for users to remove courses
-14. Notice section for all users
+
+4. User profile registration done by Admin 
+
+5. User Profile details change within App 
+
+6. User login saved locally 
+
+7. Add new courses to course list in database from admin side
+
+8. Simple course view Tab bars
+
+9. A smart Navigation Drawer
+
+10. Customized Toolbar for fesh look
+
+11. Intuitive color scheme
+
+12. Splash Screen on startup
+
+13. Customized App logo
+
+14. Easy for users to remove courses
+
+15. Notice section for all users
 
 
 Getting Started
